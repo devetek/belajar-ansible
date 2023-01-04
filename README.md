@@ -8,6 +8,10 @@ Kenapa docker ? dengan docker, kamu tidak perlu melakukan instalasi binary langs
 
 Sebelum mulai pastikan kamu sudah memiliki pengetahuan dasar tentang system operasi, Makefile dan docker. Silahkan belajar di [belajar-os](https://github.com/devetek/belajar-os), [belajar-makefile](https://github.com/devetek/belajar-makefile) dan [belajar-docker](https://github.com/devetek/belajar-docker).
 
+Binary Details:
+
+- Ansible Core: 2.13.6
+
 ## Daftar Isi
 
 - Kenapa Ansible
