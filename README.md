@@ -12,6 +12,35 @@ Binary Details:
 
 - Ansible Core: 2.13.6
 
+## Bantuan
+
+Untuk mempermudah proses development, di dalam repository ini terdapat beberapa command bantuan yang dapat dijalankan dengan `Makefile`:
+
+```sh
+____       _        _                   _              _ _     _
+| __ )  ___| | __ _ (_) __ _ _ __       / \   _ __  ___(_) |__ | | ___
+|  _ \ / _ \ |/ _` || |/ _` | '__|____ / _ \ | '_ \/ __| | '_ \| |/ _ \
+| |_) |  __/ | (_| || | (_| | | |_____/ ___ \| | | \__ \ | |_) | |  __/
+|____/ \___|_|\__,_|/ |\__,_|_|      /_/   \_\_| |_|___/_|_.__/|_|\___|
+                  |__/
+
+Copyright (c) 2023 Devetek Tech. https://devetek.com.
+Repo: https://github.com/devetek/belajar-ansible
+
+Use: make <target>
+
+GENERIC
+  help                                                Show available commands
+
+DEVELOPMENT
+  run                                                 Run playground
+  ls                                                  Show containers
+  enter-ansible-executor                              Enter to ansible-executor
+  enter-ansible-inventory                             Enter to ansible-inventory
+  log                                                 Show containers log
+  down                                                Shutdown playground
+```
+
 ## Daftar Isi
 
 - Kenapa Ansible

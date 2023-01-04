@@ -25,7 +25,7 @@ help: .bin-validator ## Show available commands
 	@echo "|____/ \\___|_|\\__,_|/ |\\__,_|_|      /_/   \\_\\_| |_|___/_|_.__/|_|\\___|"
 	@echo "                  |__/"
 	@echo ""
-	@echo "Copyright (c) 2022 Devetek Tech. https://devetek.com."
+	@echo "Copyright (c) $(shell date +"%Y") Devetek Tech. https://devetek.com."
 	@echo "Repo: https://github.com/devetek/belajar-ansible"
 	@echo ""
 	@gawk 'function fix_value(value, str) { \
@@ -50,25 +50,25 @@ help: .bin-validator ## Show available commands
 ##@ DEVELOPMENT
 ################################################################################
 
-run: .bin-validator ## Run dev containers
+run: .bin-validator ## Run playground
 	@docker compose -f docker-compose.yml down --remove-orphans
 	@docker compose -f docker-compose.yml up
 
-ls: .bin-validator ## Show running dev services
+ls: .bin-validator ## Show containers
 	@docker compose -f docker-compose.yml ps
 
-enter-ansible-executor: ## Enter to ansible executor
+enter-ansible-executor: ## Enter to ansible-executor
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10000
 
-enter-ansible-inventory: ## Enter to ansible inventory
+enter-ansible-inventory: ## Enter to ansible-inventory
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10001
 
 log: .bin-validator ## Show containers log
 	@docker-compose -f docker-compose.yml logs -f
 
-down: .bin-validator ## Shutdown ansible playground
+down: .bin-validator ## Shutdown playground
 	@docker compose -f docker-compose.yml down --remove-orphans
 
 
