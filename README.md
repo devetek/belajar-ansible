@@ -17,7 +17,7 @@ Binary Details:
 Untuk mempermudah proses development, di dalam repository ini terdapat beberapa command bantuan yang dapat dijalankan dengan `Makefile`:
 
 ```sh
-____       _        _                   _              _ _     _
+ ____       _        _                   _              _ _     _
 | __ )  ___| | __ _ (_) __ _ _ __       / \   _ __  ___(_) |__ | | ___
 |  _ \ / _ \ |/ _` || |/ _` | '__|____ / _ \ | '_ \/ __| | '_ \| |/ _ \
 | |_) |  __/ | (_| || | (_| | | |_____/ ___ \| | | \__ \ | |_) | |  __/
