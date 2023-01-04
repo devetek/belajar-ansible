@@ -22,6 +22,7 @@ Sebelum mulai pastikan kamu sudah memiliki pengetahuan dasar tentang system oper
 ### Kenapa Ansible
 
 Ansible adalah sebuah _provisioning tool_ yang dikembangkan oleh RedHat. Dimana kamu dapat mencatat setiap proses _deployment_ ataupun konfigurasi yang biasa dilakukan berulang - ulang terhadap beberapa _server_ dan membuatnya identik ke semua server.
+
 Bayangkan jika kamu mau melakukan instalasi PHP, MySQL, Apache dan sebagainya. Jika melakukannya ke satu server mungkin hal itu akan mudah dilakukan. Namun jika server yang kamu kelola mulai banyak, ini pasti akan menjadi sangat sulit untuk membuatnya identik.
 
 ### Cara Memulai
@@ -33,9 +34,9 @@ Untuk memulai menjalankan repository ini cukup dengan menjalankan perintah `make
 
 Selanjutnya kamu dapat mulai melakukan modifikasi file ansible (inventory, playbook, roles, etc) yang ada di repository di dalam folder `ansible`. Untuk bagian ini, kita akan belajar di bagian selanjutnya details tentang ansible.
 
-Kemudian jalankan command `make enter-ansible-executor` di terminal lain untuk masuk ke container ansible executor dan jalankan ansible command yang kamu sudah buat / modifikasi.
+Kemudian jalankan command `make enter-ansible-executor` di terminal lain untuk masuk ke container `ansible-executor`.
 
-Jalankan command `make enter-ansible-inventory` di terminal lainnya. Untuk melihat perubahan yang kamu lakukan sudah masuk ke mesin tujuan atau belum.
+Kemudian jalankan command `make enter-ansible-inventory` di terminal lainnya. Untuk melihat perubahan yang kamu lakukan sudah masuk ke mesin tujuan atau belum.
 
 ## Configurasi Dasar
 
@@ -43,10 +44,10 @@ Konfigurasi dasar berada di file `ansible/ansible.cfg`. Akan dibahas lebih jauh 
 
 ## Apa Itu Playbook
 
-Playbbok adalah tempat penulisan peraturan / langkah-langkah yang akan dijalankan ke dalam server tujuan. Kita akan membahas playbook lebih jauh selanjutnya. Untuk memulai, jalankan perintah di bawah ini didalam container `ansible-executor`:
+Playbook adalah tempat penulisan peraturan / langkah-langkah yang akan dijalankan ke dalam server tujuan. Kita akan membahas playbook lebih jauh di chapter lain. Untuk memulai, jalankan perintah di bawah ini didalam container `ansible-executor`:
 
 ```sh
-ansible-playbook -i inventory/ansible-inventory.ini playbooks/hello-world.yml -vv
+cd /ansible && ansible-playbook -i inventory/ansible-inventory.ini playbooks/hello-world.yml -vv
 ```
 
-Kemudian lihat di dalam container `ansible-inventory`, akan ada sebuah file `/root/output` yang terbuat.
+Kemudian lihat di dalam container `ansible-inventory`, akan ada sebuah file baru di `/root/output` yang terbuat.
