@@ -1,0 +1,11 @@
+---
+# The interface where the app process should listen on.
+# Defaults to the first interface. Change this to:
+# 
+#  iface: eth1
+#
+# ...to override.
+# 
+group_var_address: '{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}'
+
+group_vars_environment: 'development'

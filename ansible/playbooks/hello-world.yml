@@ -1,0 +1,11 @@
+---
+
+- hosts: ansible_inventory
+  vars:
+    message: "Hello World!"
+  tasks:
+    - name: Prints "Hello World!" in file.
+      shell:  |
+        echo "{{ message }}" > ~/output
+        cat ~/output
+  # roles:

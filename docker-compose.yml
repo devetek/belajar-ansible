@@ -1,0 +1,29 @@
+version: '3'
+services:
+  ansible-executor:
+    image: prakasa1904/ansible:ubuntu-22.04
+    working_dir: /ansible
+    container_name: ansible-executor
+    privileged: true
+    ports:
+      - 10000:22
+    volumes:
+      # SSH Configuration && SSH Key
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+      # Ansible Configuration
+      - ${PWD}/ansible:/ansible
+      # Fake Authorized Key
+      - ${PWD}/ssh-key/id_rsa_fake:/ansible/id_rsa_fake
+    restart: unless-stopped
+  ansible-inventory:
+    image: docker.io/prakasa1904/sshserver:ubuntu-22.04
+    working_dir: /root
+    container_name: ansible-inventory
+    privileged: true
+    ports:
+      - 10001:22
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
