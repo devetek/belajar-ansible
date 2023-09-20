@@ -1,0 +1,8 @@
+# this come from docker mount, when you found issue during the docker mount.
+# Make sure if this folder / files below does not exist
+inventory
+playbooks
+roles
+ansible.cfg
+id_rsa_fake
+requirements.yml

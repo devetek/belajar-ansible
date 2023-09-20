@@ -11,10 +11,19 @@ services:
       # SSH Configuration && SSH Key
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
-      # Ansible Configuration
-      - ${PWD}/ansible:/ansible
+
+      # Golang ansible executor
+      - ${PWD}/executor:/executor
+
+      # Ansible configuration
+      - ${PWD}/ansible/requirements.yml:/executor/requirements.yml
+      - ${PWD}/ansible/ansible.cfg:/executor/ansible.cfg
+      - ${PWD}/ansible/inventory:/executor/inventory
+      - ${PWD}/ansible/playbooks:/executor/playbooks
+      - ${PWD}/ansible/roles:/executor/roles
+
       # Fake Authorized Key
-      - ${PWD}/ssh-key/id_rsa_fake:/ansible/id_rsa_fake
+      - ${PWD}/ssh-key/id_rsa_fake:/executor/id_rsa_fake
     restart: unless-stopped
   ansible-inventory:
     image: docker.io/prakasa1904/sshserver:ubuntu-22.04

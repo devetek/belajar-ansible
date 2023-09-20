@@ -80,7 +80,12 @@ Konfigurasi dasar berada di file `ansible/ansible.cfg`. Akan dibahas lebih jauh 
 Playbook adalah tempat penulisan peraturan / langkah-langkah yang akan dijalankan ke dalam server tujuan. Kita akan membahas playbook lebih jauh di chapter lain. Untuk memulai, jalankan perintah di bawah ini didalam container `ansible-executor`:
 
 ```sh
-cd /ansible && ansible-playbook -i inventory/ansible-inventory.ini playbooks/hello-world.yml -vv
+cd /executor && ansible-playbook -i inventory/ansible-inventory.ini playbooks/hello-world.yml -vv
+```
+
+atau menggunakan golang executor
+```sh
+cd /executor/ && go run main.go
 ```
 
 Kemudian lihat di dalam container `ansible-inventory`, akan ada sebuah file baru di `/root/output` yang terbuat.
