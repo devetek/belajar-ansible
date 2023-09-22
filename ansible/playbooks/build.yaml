@@ -6,6 +6,6 @@
   tasks:
     - name: Prints "Built!" in file.
       shell:  |
-        echo "{{ message }}" > ~/output
-        cat ~/output
+        echo "{{ message }}" > ~/output-build
+        cat ~/output-build
   # roles:

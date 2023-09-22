@@ -6,6 +6,6 @@
   tasks:
     - name: Prints "New Version!" in file.
       shell:  |
-        echo "{{ message }}" > ~/output
-        cat ~/output
+        echo "{{ message }}" > ~/output-version
+        cat ~/output-version
   # roles:

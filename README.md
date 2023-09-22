@@ -10,7 +10,7 @@ Sebelum mulai pastikan kamu sudah memiliki pengetahuan dasar tentang system oper
 
 Binary Details:
 
-- Ansible Core: 2.13.6
+- Ansible Core: 2.15.4
 
 ## Bantuan
 

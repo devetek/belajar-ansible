@@ -6,6 +6,6 @@
   tasks:
     - name: Prints "Deployed!" in file.
       shell:  |
-        echo "{{ message }}" > ~/output
-        cat ~/output
+        echo "{{ message }}" > ~/output-deploy
+        cat ~/output-deploy
   # roles:
