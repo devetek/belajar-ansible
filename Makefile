@@ -10,6 +10,9 @@ MSG_PREFIX="[belajar-ansible]"
 $(eval WHICH_DOCKER := $(strip $(shell which docker)))
 docker_found = $(strip $(findstring docker, $(WHICH_DOCKER)))
 
+$(eval WHICH_ANSIBLE := $(strip $(shell which ansible)))
+ansible_found = $(strip $(findstring ansible, $(WHICH_ANSIBLE)))
+
 $(eval WHICH_GAWK := $(strip $(shell which gawk)))
 gawk_found = $(strip $(findstring gawk, $(WHICH_GAWK)))
 
@@ -89,5 +92,12 @@ ifneq ($(gawk_found),gawk)
 	@exit 126
 endif
 
+ifneq ($(ansible_found),ansible)
+	@echo "$(MSG_PREFIX) Install ansible official https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html"
+	@echo "$(MSG_PREFIX) Install ansible for MacOS https://formulae.brew.sh/formula/ansible"
+	@exit 126
+endif
+
 # extend your make here!
 include .docker/docker.Mk
+include ansible/ansible.Mak

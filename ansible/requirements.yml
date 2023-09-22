@@ -2,13 +2,12 @@
 # https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file
 roles:
   # Install from Ansible Galaxy.
-  - name: geerlingguy.mysql
-    version: 4.2.2
-  - name: geerlingguy.postgresql
-    version: 3.4.2
-  - name: geerlingguy.php
-    version: 4.8.0
-  - name: geerlingguy.php-versions
-    version: 5.0.1
+  # - name: prakasa1904.helloworld
+  #   version: 0.0.1
 
-# collections:
+collections:
+  # When you facing issue when use ANSIBLE_STDOUT_CALLBACK=json, then you need to install collections below
+  # https://docs.ansible.com/ansible/latest/collections/ansible/posix/json_callback.html#ansible-collections-ansible-posix-json-callback
+  - name: ansible.posix
+  - name: community.general
+    # source: https://galaxy.ansible.com

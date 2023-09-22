@@ -39,6 +39,12 @@ DEVELOPMENT
   enter-ansible-inventory                             Enter to ansible-inventory
   log                                                 Show containers log
   down                                                Shutdown playground
+
+DOCKER
+  docker-build-push                                   Build and push ansible master
+
+ANSIBLE
+  ansible-create-roles                                Create new role ansible_role_name=<ROLE_NAME>
 ```
 
 ## Daftar Isi

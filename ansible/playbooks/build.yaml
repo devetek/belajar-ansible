@@ -1,0 +1,11 @@
+---
+
+- hosts: ansible_inventory
+  vars:
+    message: "Built!"
+  tasks:
+    - name: Prints "Built!" in file.
+      shell:  |
+        echo "{{ message }}" > ~/output
+        cat ~/output
+  # roles:
