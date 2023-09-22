@@ -61,10 +61,14 @@ ls: .bin-validator ## Show containers
 	@docker compose -f docker-compose.yml ps
 
 enter-ansible-executor: ## Enter to ansible-executor
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10000
 
 enter-ansible-inventory: ## Enter to ansible-inventory
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10001
 
