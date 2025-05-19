@@ -1,69 +1,124 @@
 package main
 
+/*
+ `go run cobra-cmd-ansibleplaybook.go -i 127.0.0.1, -p site.yml -L -e example=cobra-cmd-ansibleplaybook`
+*/
+
 import (
 	"context"
-	"log"
+	"fmt"
+	"os"
 
-	"github.com/apenella/go-ansible/pkg/execute"
-	"github.com/apenella/go-ansible/pkg/options"
-	"github.com/apenella/go-ansible/pkg/playbook"
-	"github.com/apenella/go-ansible/pkg/stdoutcallback/results"
-	"github.com/devetek/belajar-ansible/utils"
+	"github.com/apenella/go-ansible/v2/pkg/execute"
+	"github.com/apenella/go-ansible/v2/pkg/execute/configuration"
+	"github.com/apenella/go-ansible/v2/pkg/execute/result/transformer"
+	"github.com/apenella/go-ansible/v2/pkg/playbook"
+	errors "github.com/apenella/go-common-utils/error"
+	"github.com/spf13/cobra"
 )
 
-func main() {
+var inventory string
+var connectionLocal bool
+var user string
+var key string
+var playbookFiles []string
+var tags []string
+var extravars []string
 
-	// Remove known host config, ignore error
-	_ = utils.RemoveKnownHost()
+const (
+	extraVarsSplitToken = "="
+)
 
-	// Conection configuration
-	ansiblePlaybookConnectionOptions := &options.AnsibleConnectionOptions{
-		Connection: "ssh",
-		User:       "root",
-		PrivateKey: "./id_rsa_fake",
-		AskPass:    false,
+func init() {
+	rootCmd.Flags().StringVarP(&inventory, "inventory", "i", "", "Specify ansible playbook inventory")
+	rootCmd.Flags().BoolVarP(&connectionLocal, "connection-local", "L", false, "Run playbook using local connection")
+	rootCmd.Flags().StringVarP(&user, "user", "u", "", "User to executute playbook")
+	rootCmd.Flags().StringVarP(&key, "key", "k", "", "SSH key to execute playbook")
+	rootCmd.Flags().StringSliceVarP(&playbookFiles, "playbook", "p", []string{}, "Playbook(s) to run")
+	rootCmd.Flags().StringSliceVarP(&tags, "tags", "t", []string{}, "Tag(s) to be executed")
+	rootCmd.Flags().StringSliceVarP(&extravars, "extra-var", "e", []string{}, "Set extra variables from file to use during the playbook execution.")
+}
+
+var rootCmd = &cobra.Command{
+	Use:   "ansible-executor",
+	Short: "ansible-executor",
+	Long: `ansible-executor is an example which show how to use go-ansible library from cobra cli
+	
+ Run the example:
+go run main.go -L -i /ansible/inventory/{task-id}.json -p site.yml -e @/ansible/variables/{task-id}.json
+go run main.go -i /ansible/inventory/{task-id}.json -p site.yml -e @/ansible/variables/{task-id}.json -t "role-a,role-b" -u root -k @/ansible/keys/{task-id}.json
+`,
+	RunE: commandHandler,
+}
+
+func commandHandler(cmd *cobra.Command, args []string) error {
+	if len(playbookFiles) < 1 {
+		return errors.New("(ansible-handler)", "To run ansible-playbook playbook file path must be specified")
 	}
 
-	// playbook configuration
-	// var extraVarsFile = []string{
-	// 	"@filename-if-exist",
-	// 	"@anotherfilename-if-exist",
-	// }
+	if len(inventory) < 1 {
+		return errors.New("(ansible-handler)", "To run ansible-playbook an inventory must be specified")
+	}
+
+	if user == "" {
+		return errors.New("(ansible-handler)", "To run ansible-playbook user must be specified")
+	}
+
+	if key == "" {
+		return errors.New("(ansible-handler)", "To run ansible-playbook key must be specified")
+	}
+
 	ansiblePlaybookOptions := &playbook.AnsiblePlaybookOptions{
-		Inventory: "inventory/ansible-inventory.ini",
-		// ExtraVarsFile: extraVarsFile,
-		Tags:          "all",
-		ForceHandlers: false,
-		FlushCache:    false,
-		SyntaxCheck:   false,
-		Verbose:       false,
+		Inventory:     inventory,
+		ExtraVarsFile: extravars,
+		BecomeMethod:  "sudo",
+		AskBecomePass: false,
+		Become:        true,
+		AskPass:       false,
+		User:          user,
+		PrivateKey:    key,
 	}
 
-	// previllage configuration
-	ansiblePlaybookPrivilegeEscalationOptions := &options.AnsiblePrivilegeEscalationOptions{
-		BecomeMethod: "sudo",
+	if connectionLocal {
+		ansiblePlaybookOptions.Connection = "local"
 	}
 
-	playbook := &playbook.AnsiblePlaybookCmd{
-		Playbooks:                  []string{"playbooks/hello-world.yml"},
-		ConnectionOptions:          ansiblePlaybookConnectionOptions,
-		PrivilegeEscalationOptions: ansiblePlaybookPrivilegeEscalationOptions,
-		Options:                    ansiblePlaybookOptions,
-		Exec: execute.NewDefaultExecute(
-			execute.WithEnvVar("ANSIBLE_HOST_KEY_CHECKING", "false"),
-			execute.WithEnvVar("ANSIBLE_FORCE_COLOR", "true"),
-			execute.WithEnvVar("ANSIBLE_ROLES_PATH", "${PWD}/roles"),
+	playbookCmd := playbook.NewAnsiblePlaybookCmd(
+		playbook.WithPlaybooks(playbookFiles...),
+		playbook.WithPlaybookOptions(ansiblePlaybookOptions),
+	)
+
+	exec := configuration.NewAnsibleWithConfigurationSettingsExecute(
+		execute.NewDefaultExecute(
+			execute.WithCmd(playbookCmd),
+			execute.WithCmdRunDir("/ansible"),
+			execute.WithErrorEnrich(playbook.NewAnsiblePlaybookErrorEnrich()),
+			execute.WithEnvVars(map[string]string{
+				"ANSIBLE_HOST_KEY_CHECKING":               "false",
+				"ANSIBLE_FORCE_COLOR":                     "true",
+				"ANSIBLE_ROLES_PATH":                      "/ansible/roles",
+				"ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
+				"ANSIBLE_STDOUT_CALLBACK":                 "default",
+				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
+			}),
 			execute.WithTransformers(
-				results.Prepend("lite-tools"),
+				transformer.Prepend("(ansible-handler)"),
 			),
 		),
-		StdoutCallback: "json",
+		configuration.WithAnsibleForceColor(),
+	)
+
+	err := exec.Execute(context.TODO())
+	if err != nil {
+		panic(err)
 	}
 
-	log.Println("[DEBUG] ANSIBLE COMMAND: ", playbook.String())
+	return nil
+}
 
-	err := playbook.Run(context.TODO())
-	if err != nil {
-		log.Println(err)
+func main() {
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 }

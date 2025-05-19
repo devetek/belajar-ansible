@@ -16,17 +16,7 @@ services:
       - ${PWD}/executor:/executor
 
       # Ansible configuration
-      - ${PWD}/ansible/requirements.yml:/executor/requirements.yml
-      - ${PWD}/ansible/ansible.cfg:/executor/ansible.cfg
-      - ${PWD}/ansible/inventory:/executor/inventory
-      - ${PWD}/ansible/playbooks:/executor/playbooks
-      - ${PWD}/ansible/roles:/executor/roles
-
-      # Makefile
-      # remember most of the commands only available in host 
-      # command available in the docker is defined in ansible/ansible.Mak
-      - ${PWD}/Makefile:/executor/Makefile
-      - ${PWD}/.docker:/executor/.docker
+      - ${PWD}/ansible:/ansible
 
       # Fake Authorized Key
       - ${PWD}/ssh-key/id_rsa_fake:/executor/id_rsa_fake
