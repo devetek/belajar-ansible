@@ -52,6 +52,13 @@ help: .bin-validator ## Show available commands
 ################################################################################
 ##@ DEVELOPMENT
 ################################################################################
+init: .bin-validator ## Prepare env
+	@python -m venv .pyenv
+	@( \
+		source .pyenv/bin/activate ; \
+		pip install --upgrade pip; \
+		pip install -r requirements.txt --verbose; \
+	)
 
 run: .bin-validator ## Run playground
 	@docker compose -f docker-compose.yml down --remove-orphans
