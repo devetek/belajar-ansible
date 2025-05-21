@@ -1,9 +1,5 @@
 package main
 
-/*
- `go run cobra-cmd-ansibleplaybook.go -i 127.0.0.1, -p site.yml -L -e example=cobra-cmd-ansibleplaybook`
-*/
-
 import (
 	"context"
 	"fmt"
@@ -24,10 +20,6 @@ var key string
 var playbookFiles []string
 var tags []string
 var extravars []string
-
-const (
-	extraVarsSplitToken = "="
-)
 
 func init() {
 	rootCmd.Flags().StringVarP(&inventory, "inventory", "i", "", "Specify ansible playbook inventory")
@@ -98,7 +90,7 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 				"ANSIBLE_FORCE_COLOR":                     "true",
 				"ANSIBLE_ROLES_PATH":                      "/ansible/roles",
 				"ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
-				"ANSIBLE_STDOUT_CALLBACK":                 "default",
+				"ANSIBLE_STDOUT_CALLBACK":                 "slack",
 				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
 			}),
 			execute.WithTransformers(
