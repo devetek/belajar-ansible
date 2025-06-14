@@ -65,13 +65,13 @@ Untuk menggunakan repository ini jalankan perintah `make run`. Perintah tersebut
 - Menjalankan docker compose dari file `docker-compose.yml`
 - Menjalankan 2 buah container, satu container sebagai ansible executor dan container kedua sebagai ansible inventory
 
-Selanjutnya kamu dapat mulai melakukan modifikasi file ansible (inventory, playbook, roles, etc) yang ada di repository di dalam folder `ansible`.
-
 Buka 2 terminal lain, untuk masuk ke container `ansible-executor` dengan perintah `make enter-ansible-executor`. Dan masuk ke container `ansible-inventory` dengan perintah `make enter-ansible-inventory`.
 
 Di dalam container `ansible-executor` masuk ke folder `/ansible` dengan perintah `cd /ansible`. Kemudian jalankan perintah `./scripts/setup.sh` yang di dalamnya menjalankan perintah `ansible-galaxy install -r requirements.yml` untuk menginstall ansible dependencies.
 
 Kemudian pindah ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini kamu dapat menggunakan golang ansible executor untuk menjalankan perintah Ansible.
+
+Selanjutnya kamu dapat mulai melakukan modifikasi file ansible (inventory, playbook, roles, etc) yang ada di repository di dalam folder `ansible`.
 
 ## Configurasi Dasar
 Konfigurasi dasar berada di file `ansible/ansible.cfg`.
