@@ -81,30 +81,20 @@ Di dalam container `ansible-executor` masuk ke folder `/ansible` dengan perintah
 
 ![ansible-setup](assets/terminal-2-ansible-install.png)
 
-Kemudian pindah ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini juga terdapat contoh untuk menjalankan ansible playbook untuk membuat wordpress ke server `ansible-inventory` (_di repository ini target servernya adalah docker container_) di file `/executor/exec.sh`. Yang berisi:
+Kemudian pindah ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini terdapat beberapa contoh untuk menjalankan ansible playbook yang tersedia di dPanel:
 
-```sh
-#!/usr/bin/bash
+- wordpress: `./exec-bundle-wordpress.sh`. Setelah selesai, site laravel dapat diakses melalui `http://localhost:50000`.
 
-export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/fake-app/fake-group/fake-id"
-export SLACK_CHANNEL="#dpanel-resource"
-export SLACK_USERNAME="dPanel-Creator"
+![wordpress-site](assets/wordpress-output.png)
 
-go run main.go -i /ansible/inventory/ansible-inventory.ini -p /ansible/playbooks/bundle-wordpress.yml -u root -k /executor/id_rsa_fake -t all -e @/executor/variables/bundle-wordpress.json
-```
+- laravel: `./exec-bundle-laravel.sh`. Setelah selesai, site laravel dapat diakses melalui `http://localhost:50001`.
 
-Jalankan perintah `./exec.sh` di dalam folder `/executor` untuk membuat situs wordpress dengan detail variable yang berada di file `/executor/variables/bundle-wordpress.json`.
-
-![execute-ansible](assets/terminal-2-executor-run.png)
-
-Setelah proses selesai kamu akan memiliki site wordpress yang dapat diakses di `http://localhost:50000`.
-
-![wordpress-site](assets/final-output.png)
+![laravel-site](assets/laravel-output.png)
 
 > Untuk dapat berjalan 100% (_termasuk mengirim notifikasi ke slack_) ubah environment variable `SLACK_WEBHOOK_URL` menjadi slack hook url asli. Buat slack web hook disini: [Slack App](https://api.slack.com/apps).
 
 
-Selanjutnya kamu dapat mulai melakukan membuat playbook lain atau modifikasi file-file ansible lainnya (inventory, playbook, roles, etc) yang ada di repository di dalam folder `ansible`.
+Selanjutnya kamu dapat membuat playbook lain atau modifikasi file-file ansible yang ada (inventory, playbook, roles, etc) di dalam folder `ansible`.
 
 ## Configurasi Dasar
 Konfigurasi dasar berada di file `ansible/ansible.cfg`.

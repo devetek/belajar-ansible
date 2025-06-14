@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   become: true
 
@@ -16,12 +15,12 @@
     - role: geerlingguy.php
       tags:
         - php
-    - role: devetek.wpcli
+    - role: geerlingguy.composer
       tags:
-        - wordpress
-    - role: devetek.wordpress
+        - composer
+    - role: devetek.laravel
       tags:
-        - wordpress
+        - laravel
     - role: devetek.phpfpm_pool
       tags:
         - phpfpm
