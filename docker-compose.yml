@@ -28,6 +28,16 @@ services:
     privileged: true
     ports:
       - 10001:22
+      - 50000:50000
+      - 50001:50001
+      - 50002:50002
+      - 50003:50003
+      - 50004:50004
+      - 50005:50005
+      - 50006:50006
+      - 50007:50007
+      - 50008:50008
+      - 50009:50009
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys

@@ -1,0 +1,14 @@
+ansible-core==2.16.0
+cffi==1.17.1
+cryptography==45.0.4
+dbus-python==1.2.18
+distro==1.7.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+packaging==25.0
+prettytable==3.16.0
+pycparser==2.22
+PyYAML==6.0.2
+resolvelib==1.0.1
+ssh-import-id==5.11
+wcwidth==0.2.13

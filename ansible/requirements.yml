@@ -1,13 +1,69 @@
 ---
 # https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file
 roles:
-  # Install from Ansible Galaxy.
-  # - name: prakasa1904.helloworld
-  #   version: 0.0.1
+  - name: dpanel.cloud-provider
+    src: https://github.com/devetek/ansible-role-cloud-provider
+  - name: robertdebock.users
+    version: 6.1.5
+  - name: zzet.rbenv
+    version: 3.6.0
+  - name: geerlingguy.git
+    version: 3.0.1
+  - name: gantsign.golang
+    version: 3.4.0
+  - name: geerlingguy.mysql
+    version: 4.3.4
+  - name: geerlingguy.postgresql
+    version: 3.4.2
+  - name: geerlingguy.php
+    version: 4.8.0
+  - name: geerlingguy.php-versions
+    version: 5.0.1
+  - name: geerlingguy.composer
+    version: 1.9.2
+  - name: geerlingguy.redis
+    version: 1.9.0
+  - name: devetek.postgresql
+    src: https://github.com/devetek/postgresql
+  - name: devetek.mariadb
+    src: https://github.com/devetek/ansible-role-mariadb
+  - name: devetek.php-roadrunner
+    src: https://github.com/devetek/ansible-role-php-roadrunner
+  - name: devetek.bun
+    src: https://github.com/devetek/ansible-role-bun
+  - name: devetek.mongodb
+    src: https://github.com/devetek/ansible-role-mongodb-install
+    version: main
+  - name: devetek.wpcli
+    src: https://github.com/devetek/ansible-role-wpcli
+    version: main
+  - name: devetek.wordpress
+    src: https://github.com/devetek/ansible-role-wordpress
+    version: main
+  - name: devetek.phpfpm_pool
+    src: https://github.com/devetek/ansible-role-phpfpm-pool
+    version: main
+  - name: devetek.laravel
+    src: https://github.com/devetek/ansible-role-laravel
+    version: main
+  - name: devetek.git
+    src: https://github.com/devetek/ansible-role-git
+    version: main
+  - name: devetek.build
+    src: https://github.com/devetek/ansible-role-build
+    version: main
+  - name: devetek.deploy
+    src: https://github.com/devetek/ansible-role-deploy
+    version: main
+  - name: devetek.caddyserver
+    src: https://github.com/devetek/ansible-role-caddyserver
+    version: main
 
 collections:
   # When you facing issue when use ANSIBLE_STDOUT_CALLBACK=json, then you need to install collections below
   # https://docs.ansible.com/ansible/latest/collections/ansible/posix/json_callback.html#ansible-collections-ansible-posix-json-callback
   - name: ansible.posix
   - name: community.general
-    # source: https://galaxy.ansible.com
+  - name: google.cloud
+  - name: community.mysql
+  - name: community.postgresql
