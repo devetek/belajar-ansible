@@ -1,0 +1,173 @@
+---
+
+- hosts: all
+  become: true
+
+  vars:
+    users_groups:
+      - name: "prakasa1904"
+    users:
+      - name: "prakasa1904"
+        group: "prakasa1904"
+        password: prakasa1904
+        comment: "User for dPanel cloud.terpusat.com"
+        shell: /usr/sbin/nologin
+        groups:
+          - prakasa1904
+          - www-data
+          - users
+
+    mariadb_bind_address: 0.0.0.0
+    mariadb_databases:
+      - name: "wordpress"
+        encoding: utf8
+        collation: utf8_general_ci
+        replicate: false
+    mariadb_users:
+      - name: "wordpress"
+        host: 'localhost'
+        password: "wordpress"
+        priv: "wordpress.*:ALL"
+        resource_limits:
+          MAX_USER_CONNECTIONS: 10
+        state: present
+    
+    wordpress_title: My Wordpress
+    wordpress_user_linux: 'prakasa1904'
+    wordpress_user_email: support@devetek.com
+    wordpress_user_admin: 'prakasa1904'
+    wordpress_user_admin_password: password
+    wordpress_directory: '{{ deploy_workdir }}'
+    wordpress_domain: '{{ router_domain }}'
+    wordpress_db_host: localhost
+    wordpress_db_name: wordpress
+    wordpress_db_user: wordpress
+    wordpress_db_password: wordpress
+    wordpress_install_type: singlesite
+
+    php_version: '8.4'
+    php_enable_webserver: false
+    php_enable_php_fpm: false
+    php_fpm_state: stopped
+    php_fpm_enabled_on_boot: false
+    php_packages_extra:
+      - sendmail
+      - php{{ php_version }}-mysql
+      - php{{ php_version }}-pgsql
+      - php{{ php_version }}-mongodb
+      - php{{ php_version }}-mcrypt
+      - php{{ php_version }}-redis
+      - php{{ php_version }}-zip
+      - php{{ php_version }}-gd
+      - php{{ php_version }}-intl
+
+    phpfpm_pool_user: 'prakasa1904'
+    phpfpm_pool_group: 'prakasa1904'
+    phpfpm_pool_conf_path: '/home/prakasa1904/run/php-fpm/{{ build_appname }}.conf'
+    phpfpm_pools:
+      - pool_name: '{{ build_appname }}'
+        pool_pm: static
+        pool_pid: '/home/prakasa1904/run/php-fpm/{{ build_appname }}.pid'
+        pool_listen: '/home/prakasa1904/run/php-fpm/{{ build_appname }}.sock'
+        pool_user: 'prakasa1904'
+        pool_group: 'prakasa1904'
+        pool_pm_max_children: 5
+        pool_pm_start_servers: 3
+        pool_pm_min_spare_servers: 3
+        pool_pm_max_spare_servers: 5
+        pool_php_fpm_pm_max_requests: 50
+        pool_php_admin_flag_display_errors: 'off'
+        pool_php_admin_flag_log_errors: 'off'
+        pool_global_error_log: '{{ build_log }}/global_error.log'
+        pool_slowlog: '{{ build_log }}/slowlog.log'
+        pool_php_admin_value_error_log: '{{ build_log }}/php_admin_value_error.log'
+
+    
+    build_id: '1'
+    build_appname: my-wordpress
+    build_user: 'prakasa1904'
+    build_destination: '/home/prakasa1904/apps/{{ build_appname }}'
+    build_log: '/home/prakasa1904/logs/{{ build_appname }}'
+    build_application_from_input:
+      version: v0.0.1-alpha.0
+      setup:
+        framework: wordpress
+        language:
+          name: php
+          version: '8.4'
+      build:
+        target:
+          machine:
+            workir: .
+            steps:
+              - name: Build wordpress
+                command:
+                  - echo "No build command required!"
+            environment:
+              - key: APP_ENV
+                value: wordpress
+              - key: APP_STORAGE
+                value: redis
+      run:
+        config: null
+        command: bash -c "php-fpm --nodaemonize --fpm-config {{ phpfpm_pool_conf_path }} >> {{ deploy_logdir }}/error.log 2>&1"
+        no_service: false
+        environment:
+          - key: APP_ENV
+            value: wordpress
+          - key: APP_STORAGE
+            value: redis
+
+    deploy_workdir: '/home/prakasa1904/apps/{{ build_appname }}'
+    deploy_logdir: '/home/prakasa1904/logs/{{ build_appname }}'
+    deploy_service_name: 'devetek-{{ build_appname }}-prakasa1904'
+    deploy_service_description: Wordpress app from dPanel agnostic deployment
+    deploy_service_language_name: php
+    deploy_service_language_version: '{{ php_version }}'
+    deploy_user: 'prakasa1904'
+    deploy_group: 'prakasa1904'
+    deploy_start_command: bash -c "php-fpm --nodaemonize --fpm-config {{ phpfpm_pool_conf_path }} >> {{ deploy_logdir }}/error.log 2>&1"
+    deploy_reload_command: /bin/kill -USR2 $MAINPID
+    deploy_environment_variables:
+      - key: APP_ENV
+        value: production
+      - key: APP_STORAGE
+        value: redis
+
+    router_action: install
+    router_filename: http-localhost-50000
+    router_domain: http://localhost:50000
+    router_content: import php-wordpress-next {{ router_domain }} unix//home/prakasa1904/run/php-fpm/{{ build_appname }}.sock {{ wordpress_directory }}
+
+
+  roles:
+    - role: robertdebock.users
+      tags:
+        - robertdebock.users
+    - role: devetek.mariadb
+      tags:
+        - mariadb
+    - role: geerlingguy.php-versions
+      tags:
+        - php
+    - role: geerlingguy.php
+      tags:
+        - php
+    - role: devetek.wpcli
+      tags:
+          - wordpress
+    - role: devetek.wordpress
+      tags:
+        - wordpress
+    - role: devetek.phpfpm_pool
+      tags:
+        - phpfpm
+    - role: devetek.build
+      tags:
+        - build
+    - role: devetek.deploy
+      tags:
+        - deploy
+    - role: devetek.caddyserver
+      tags:
+        - caddyserver

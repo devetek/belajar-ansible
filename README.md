@@ -69,7 +69,9 @@ Selanjutnya kamu dapat mulai melakukan modifikasi file ansible (inventory, playb
 
 Buka 2 terminal lain, untuk masuk ke container `ansible-executor` dengan perintah `make enter-ansible-executor`. Dan masuk ke container `ansible-inventory` dengan perintah `make enter-ansible-inventory`.
 
-Di dalam container `ansible-executor`, masuk ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini kamu dapat menggunakan golang ansible executor untuk menjalankan perintah Ansible.
+Di dalam container `ansible-executor` masuk ke folder `/ansible` dengan perintah `cd /ansible`. Kemudian jalankan perintah `./scripts/setup.sh` yang di dalamnya menjalankan perintah `ansible-galaxy install -r requirements.yml` untuk menginstall ansible dependencies.
+
+Kemudian pindah ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini kamu dapat menggunakan golang ansible executor untuk menjalankan perintah Ansible.
 
 ## Configurasi Dasar
 Konfigurasi dasar berada di file `ansible/ansible.cfg`.
@@ -80,5 +82,3 @@ Playbook adalah tempat penulisan peraturan / langkah-langkah yang akan dijalanka
 Untuk dapat menjalankan playbook di dalam container `ansible-executor` ikuti langkah-langkah berikut ini:
 1. Masuk ke directory executor dengan perintah: `cd /executor`
 2. Execute file `exec.sh`: `./exec.sh`
-
-Untuk melihat hasil yang dijalankan dari file `exec.sh`, masuk ke dalam container `ansible-inventory`, lihat perubahan yang terjadi di file `/root/output`.

@@ -3,3 +3,5 @@
 .bash_history
 id_rsa_fake
 __pycache__
+
+credential.json

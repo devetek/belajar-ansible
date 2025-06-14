@@ -55,7 +55,7 @@ help: .bin-validator ## Show available commands
 init: .bin-validator ## Prepare env
 	@python -m venv .pyenv
 	@( \
-		source .pyenv/bin/activate ; \
+		source .pyenv/bin/activate; \
 		pip install --upgrade pip; \
 		pip install -r requirements.txt --verbose; \
 	)
