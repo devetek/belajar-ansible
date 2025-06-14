@@ -80,6 +80,17 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 		playbook.WithPlaybookOptions(ansiblePlaybookOptions),
 	)
 
+	playbookCmdString := playbookCmd.String()
+
+	ansiblePlaybookOptions.ExtraVars = map[string]interface{}{
+		"dpanel_system_title":           "Setup Machine ID #1",
+		"dpanel_system_actor_avatar":    "https://ik.imagekit.io/terpusat/tr:h-300,w-300/assets/v1_0_0/logo/terpusat_YecCfAziS.png?ik-sdk-version=react-1.1.0",
+		"dpanel_system_actor_fullname":  "dPanel Executor",
+		"dpanel_system_actor_username":  "dpanel",
+		"dpanel_system_actor_email":     "info@devetek.com",
+		"dpanel_system_ansible_command": playbookCmdString,
+	}
+
 	exec := configuration.NewAnsibleWithConfigurationSettingsExecute(
 		execute.NewDefaultExecute(
 			execute.WithCmd(playbookCmd),
@@ -90,7 +101,8 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 				"ANSIBLE_FORCE_COLOR":                     "true",
 				"ANSIBLE_ROLES_PATH":                      "/ansible/roles",
 				"ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
-				"ANSIBLE_STDOUT_CALLBACK":                 "slack",
+				"ANSIBLE_DPANEL_PLUGINS":                  "/ansible/plugins/utils",
+				"ANSIBLE_STDOUT_CALLBACK":                 "dpanel",
 				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
 			}),
 			execute.WithTransformers(

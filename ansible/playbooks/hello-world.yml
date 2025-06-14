@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  vars:
+    message: "Hello World!"
+  tasks:
+    - name: Prints "Hello World!" in file.
+      shell:  |
+        echo "{{ message }}" > ~/output
+        cat ~/output
+
+  # roles:
+  # - role: robertdebock.users
+  #   vars:
+  #   users_groups:
+  #     - name: prakasa1904
+  #   users:
+  #     - name: prakasa1904
+  #       group: prakasa1904
+  #       password: prakasa1904
+  #       comment: User for dPanel cloud.terpusat.com
+  #       shell: /usr/sbin/nologin
+  #       groups:
+  #         - prakasa1904
+  #         - www-data
+  #         - users

@@ -7,3 +7,4 @@ ansible.cfg
 id_rsa_fake
 requirements.yml
 Makefile
+exec-dev.sh
