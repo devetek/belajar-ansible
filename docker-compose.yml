@@ -38,7 +38,7 @@ services:
       - 50007:50007
       - 50008:50008
       - 50009:50009
-      - 50010:18083
+      - 50010:50010
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys

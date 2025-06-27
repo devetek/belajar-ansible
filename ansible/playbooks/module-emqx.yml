@@ -4,6 +4,9 @@
   become: true
 
   vars:
+    # Guard Plugin
+    emqx_guard_pro_enabled: false
+ 
     # EMQX version
     emqx_version: "5.8.3"
     emqx_node_cookie: "dpanel_cookie"
@@ -13,7 +16,7 @@
     emqx_service_enabled: true
 
     # Cluster configuration
-    emqx_cluster_discovery_strategy: static
+    emqx_cluster_discovery_strategy: manual
 
     # Port settings
     emqx_tcp_port: 1883
@@ -26,8 +29,18 @@
       https_port: 0
       http_port: 18083
       swagger_support: true
+    
+    # Create domain for public
+    router_action: install
+    router_filename: http-localhost-50000
+    router_domain: 'http://localhost:50000'
+    router_content: import proxypass {{ router_domain }} localhost:18083
+
 
   roles:
     - role: zhongwencool.emqx
       tags:
         - emqx
+    - role: devetek.caddyserver
+      tags:
+        - caddyserver
