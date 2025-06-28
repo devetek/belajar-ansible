@@ -20,7 +20,6 @@ services:
 
       # Fake Authorized Key
       - ${PWD}/ssh-key/id_rsa_fake:/executor/id_rsa_fake
-      - ${PWD}/ssh-key/id_rsa_prod:/executor/id_rsa_prod
     restart: unless-stopped
   ansible-inventory:
     image: docker.io/prakasa1904/sshserver:ubuntu-22.04
