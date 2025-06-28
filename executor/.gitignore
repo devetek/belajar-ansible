@@ -5,6 +5,7 @@ playbooks
 roles
 ansible.cfg
 id_rsa_fake
+id_rsa_prod
 requirements.yml
 Makefile
 exec-dev.sh
