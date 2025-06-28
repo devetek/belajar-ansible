@@ -1,6 +1,8 @@
 ---
 # https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file
 roles:
+  - name: zhongwencool.emqx
+    version: v1.0.0
   - name: dpanel.cloud-provider
     src: https://github.com/devetek/ansible-role-cloud-provider
   - name: robertdebock.users

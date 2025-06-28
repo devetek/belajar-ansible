@@ -1,0 +1,42 @@
+---
+- name: Install and configure EMQX
+  hosts: all
+  become: true
+
+  vars:
+    # Disable Guard Plugin
+    emqx_guard_pro_enabled: false
+
+    # Disable Configure Sysctl
+    emqx_sysctl_enabled: false
+
+    # Disable Chrony
+    emqx_chrony_enabled: false
+ 
+    # EMQX version
+    emqx_version: "5.8.3"
+    emqx_node_cookie: "dpanel_cookie"
+
+    # Service configuration
+    emqx_service_state: started
+    emqx_service_enabled: true
+
+    # Cluster configuration
+    emqx_cluster_discovery_strategy: manual
+
+    # Port settings
+    emqx_tcp_port: 1883
+    emqx_ssl_port: 8883
+    emqx_ws_port: 0
+    emqx_wss_port: 0
+
+    # Dashboard Configuration
+    emqx_dashboard:
+      https_port: 0
+      http_port: 18083
+      swagger_support: true
+
+  roles:
+    - role: zhongwencool.emqx
+      tags:
+        - emqx
