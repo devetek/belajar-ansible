@@ -1,26 +1,19 @@
 ---
 
 - hosts: all
-  vars:
-    message: "Hello World!"
   tasks:
-    - name: Prints "Hello World!" in file.
-      shell:  |
-        echo "{{ message }}" > ~/output
-        cat ~/output
-
-  # roles:
-  # - role: robertdebock.users
-  #   vars:
-  #   users_groups:
-  #     - name: prakasa1904
-  #   users:
-  #     - name: prakasa1904
-  #       group: prakasa1904
-  #       password: prakasa1904
-  #       comment: User for dPanel cloud.terpusat.com
-  #       shell: /usr/sbin/nologin
-  #       groups:
-  #         - prakasa1904
-  #         - www-data
-  #         - users
+    # https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_vars_facts.html
+    - name: Print all ansible variables
+      ansible.builtin.debug:
+        msg:
+          # - "ansible_facts is: {{ ansible_facts }}"
+          - "ansible_system is: {{ ansible_system }}"
+          - "ansible_os_family is: {{ ansible_os_family }}"
+          - "ansible_distribution is: {{ ansible_distribution }}"
+          - "ansible_distribution_release is: {{ ansible_distribution_release }}"
+          - "ansible_distribution_version is: {{ ansible_distribution_version }}"
+          - "ansible_hostname is: {{ ansible_hostname }}"
+          - "ansible_fqdn is: {{ ansible_fqdn }}"
+          - "ansible_machine_id is: {{ ansible_machine_id }}"
+          - "ansible_architecture is: {{ ansible_architecture }}"
+          - "ansible_default_ipv4 is: {{ ansible_default_ipv4 }}"
