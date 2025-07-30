@@ -1,0 +1,9 @@
+---
+- name: Install and configure Docker
+  hosts: all
+  become: true
+
+  roles:
+    - role: githubixx.docker
+      tags:
+        - docker

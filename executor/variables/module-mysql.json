@@ -1,0 +1,8 @@
+{
+  "mysql_root_password_update": true,
+  "mysql_user_password_update": true,
+  "mysql_port": "3306",
+  "mysql_bind_address": "0.0.0.0",
+  "mysql_slow_query_log_enabled": true,
+  "mysql_slow_query_time": "2"
+}

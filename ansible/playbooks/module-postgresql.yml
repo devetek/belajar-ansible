@@ -1,0 +1,9 @@
+---
+- name: Install and configure PostgreSQL
+  hosts: all
+  become: true
+
+  roles:
+    - role: devetek.postgresql
+      tags:
+        - postgresql

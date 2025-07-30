@@ -1,0 +1,6 @@
+{
+  "postgresql_listen_addresses": [
+    "*"
+  ],
+  "postgresql_version": 16
+}

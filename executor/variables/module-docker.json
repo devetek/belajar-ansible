@@ -1,0 +1,13 @@
+{
+  "docker_version": "28.3.3",
+  "docker_compose_version": "2.39.1",
+  "docker_download_dir": "/tmp",
+  "dockerd_settings": {
+    "host": "unix:///run/docker.sock",
+    "log-level": "info",
+    "storage-driver": "vfs",
+    "iptables": "true",
+    "ip-masq": "true",
+    "mtu": "1500"
+  }
+}

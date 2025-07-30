@@ -25,10 +25,14 @@ roles:
     version: 1.9.2
   - name: geerlingguy.redis
     version: 1.9.0
+  - name: robertdebock.logrotate
+    version: 2.10.1
+  - name: ANXS.postgresql
+    version: v1.17.0
+  - name: fauust.mariadb
+    version: 4.0.1
   - name: devetek.postgresql
     src: https://github.com/devetek/postgresql
-  - name: devetek.mariadb
-    src: https://github.com/devetek/ansible-role-mariadb
   - name: devetek.php-roadrunner
     src: https://github.com/devetek/ansible-role-php-roadrunner
   - name: devetek.bun
@@ -60,6 +64,9 @@ roles:
   - name: devetek.caddyserver
     src: https://github.com/devetek/ansible-role-caddyserver
     version: main
+  - name: githubixx.docker
+    src: https://github.com/devetek/ansible-role-docker
+    version: fix-compatibility
 
 collections:
   # When you facing issue when use ANSIBLE_STDOUT_CALLBACK=json, then you need to install collections below
@@ -69,3 +76,4 @@ collections:
   - name: google.cloud
   - name: community.mysql
   - name: community.postgresql
+  - name: community.mongodb
