@@ -9,3 +9,6 @@ ansible-create-roles: .bin-validator ## Create new role ansible_role_name=<ROLE_
 
 ansible-install-deps: .bin-validator ## Install dependencies from requirements.yml
 	@cd ansible && ansible-galaxy install -r requirements.yml
+
+ansible-install-deps-force: .bin-validator ## Install dependencies from requirements.yml
+	@cd ansible && ansible-galaxy install -r requirements.yml --force --ignore-errors

@@ -1,0 +1,9 @@
+---
+- name: Install and configure MariaDB
+  hosts: all
+  become: true
+
+  roles:
+    - role: fauust.mariadb
+      tags:
+        - mariadb

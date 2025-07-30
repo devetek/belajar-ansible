@@ -1,0 +1,6 @@
+{
+  "mongodb_version": "8.0.12",
+  "mongodb_net_bindip": "0.0.0.0",
+  "mongodb_security_authorization": "enabled",
+  "disable_logging_for_auth": false
+}

@@ -1,0 +1,9 @@
+---
+- name: Install and configure MySQL
+  hosts: all
+  become: true
+
+  roles:
+    - role: geerlingguy.mysql
+      tags:
+        - mysql

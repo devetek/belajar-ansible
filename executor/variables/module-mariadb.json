@@ -1,0 +1,5 @@
+{
+  "mariadb_use_official_repo_version": 10.6,
+  "mariadb_port": 3307,
+  "mariadb_bind_address": "0.0.0.0"
+}

@@ -1,0 +1,9 @@
+---
+- name: Install and configure MongoDB
+  hosts: all
+  become: true
+
+  roles:
+    - role: devetek.mongodb
+      tags:
+        - mongodb
