@@ -4,6 +4,6 @@
   become: true
 
   roles:
-    - role: devetek.mongodb
+    - role: trfore.mongodb_install
       tags:
         - mongodb

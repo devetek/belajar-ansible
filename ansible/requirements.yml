@@ -37,7 +37,7 @@ roles:
     src: https://github.com/devetek/ansible-role-php-roadrunner
   - name: devetek.bun
     src: https://github.com/devetek/ansible-role-bun
-  - name: devetek.mongodb
+  - name: trfore.mongodb_install
     src: https://github.com/devetek/ansible-role-mongodb-install
     version: remove-deb-arch
   - name: devetek.wpcli
