@@ -57,7 +57,7 @@ init: .bin-validator ## Prepare env
 	@( \
 		source .pyenv/bin/activate; \
 		pip install --upgrade pip; \
-		pip install -r requirements.txt --verbose; \
+		pip install -r ansible/requirements.txt --verbose; \
 	)
 
 run: .bin-validator ## Run playground
@@ -84,6 +84,13 @@ log: .bin-validator ## Show containers log
 
 down: .bin-validator ## Shutdown playground
 	@docker compose -f docker-compose.yml down --remove-orphans
+
+freeze: .bin-validator ## Freezing Deps
+	@python -m venv .pyenv
+	@( \
+		source .pyenv/bin/activate; \
+		pip freeze > ansible/requirements.txt; \
+	)
 
 
 # Hidden target, for contributors only

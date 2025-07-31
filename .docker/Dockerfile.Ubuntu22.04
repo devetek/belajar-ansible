@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ARG ARG_ARCH=arm64
 ARG ARG_GOLANG_VERSION=1.23.3
-ARG ARG_ANSIBLE_CORE_VERSION=2.15.4
+ARG ARG_ANSIBLE_CORE_VERSION=2.16.0
 
 ENV ARCH=${ARG_ARCH}
 ENV GOLANG_VERSION=${ARG_GOLANG_VERSION}
@@ -22,7 +22,7 @@ RUN curl -O -L "https://golang.org/dl/go${GOLANG_VERSION}.linux-${ARCH}.tar.gz" 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3 get-pip.py --user && python3 -m pip install --user ansible-core==${ANSIBLE_CORE_VERSION} && \
     printf "\n# set up Ansible Binary #\nexport PATH=\$PATH:$HOME/.local/bin" >> ~/.bashrc && \
-    /root/.local/bin/ansible-galaxy collection install ansible.posix community.general
+    /root/.local/bin/ansible-galaxy collection install ansible.posix community.general community.mongodb community.mysql community.postgresql
 
 RUN systemctl enable ssh
 

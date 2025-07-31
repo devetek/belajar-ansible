@@ -39,7 +39,7 @@ roles:
     src: https://github.com/devetek/ansible-role-bun
   - name: devetek.mongodb
     src: https://github.com/devetek/ansible-role-mongodb-install
-    version: main
+    version: remove-deb-arch
   - name: devetek.wpcli
     src: https://github.com/devetek/ansible-role-wpcli
     version: main
