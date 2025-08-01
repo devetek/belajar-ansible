@@ -1,0 +1,9 @@
+---
+- name: Install and configure Golang
+  hosts: all
+  become: true
+
+  roles:
+    - role: gantsign.golang
+      tags:
+        - golang

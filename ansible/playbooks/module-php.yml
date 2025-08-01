@@ -1,0 +1,12 @@
+---
+- name: Install and configure PHP
+  hosts: all
+  become: true
+
+  roles:
+    - role: geerlingguy.php-versions
+      tags:
+        - php
+    - role: geerlingguy.php
+      tags:
+        - php

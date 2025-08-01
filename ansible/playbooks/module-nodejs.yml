@@ -1,0 +1,9 @@
+---
+- name: Install and configure NodeJS
+  hosts: all
+  become: true
+
+  roles:
+    - role: morgangraphics.ansible_role_nvm
+      tags:
+        - nodejs

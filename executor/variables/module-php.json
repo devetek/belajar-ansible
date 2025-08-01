@@ -1,0 +1,18 @@
+{
+  "php_version": "8.4",
+  "php_enable_webserver": false,
+  "php_enable_php_fpm": false,
+  "php_fpm_state": "stopped",
+  "php_fpm_enabled_on_boot": false,
+  "php_packages_extra": [
+    "php{{ php_version }}-swoole",
+    "php{{ php_version }}-mysql",
+    "php{{ php_version }}-pgsql",
+    "php{{ php_version }}-mongodb",
+    "php{{ php_version }}-mcrypt",
+    "php{{ php_version }}-redis",
+    "php{{ php_version }}-zip",
+    "php{{ php_version }}-gd",
+    "php{{ php_version }}-intl"
+  ]
+}
