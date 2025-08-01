@@ -1,18 +1,20 @@
 ---
 # https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file
 roles:
-  - name: zhongwencool.emqx
-    version: v1.0.0
   - name: dpanel.cloud-provider
     src: https://github.com/devetek/ansible-role-cloud-provider
   - name: robertdebock.users
     version: 6.1.5
+  - name: staticdev.pyenv
+    version: 3.0.0
   - name: zzet.rbenv
     version: 3.6.0
+  - name: morgangraphics.ansible_role_nvm
+    version: v2.0.0
   - name: geerlingguy.git
     version: 3.0.1
   - name: gantsign.golang
-    version: 3.4.0
+    version: 3.5.0
   - name: geerlingguy.mysql
     version: 4.3.4
   - name: geerlingguy.postgresql
@@ -67,6 +69,8 @@ roles:
   - name: githubixx.docker
     src: https://github.com/devetek/ansible-role-docker
     version: fix-compatibility
+  - name: zhongwencool.emqx
+    version: v1.0.0
 
 collections:
   # When you facing issue when use ANSIBLE_STDOUT_CALLBACK=json, then you need to install collections below

@@ -1,7 +1,7 @@
 {
   "docker_version": "28.3.3",
   "docker_compose_version": "2.39.1",
-  "docker_download_dir": "/tmp",
+  "docker_download_dir": "/opt/tmp",
   "dockerd_settings": {
     "host": "unix:///run/docker.sock",
     "log-level": "info",
