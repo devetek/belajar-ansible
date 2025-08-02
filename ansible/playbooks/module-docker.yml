@@ -3,6 +3,7 @@
   hosts: all
   become: true
 
+  # Switch to production storage driver, please read https://docs.docker.com/engine/storage/drivers/select-storage-driver/
   roles:
     - role: githubixx.docker
       tags:

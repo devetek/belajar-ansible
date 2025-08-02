@@ -7,7 +7,7 @@
     - role: robertdebock.users
       tags:
         - user
-    - role: devetek.mariadb
+    - role: fauust.mariadb
       tags:
         - mariadb
     - role: geerlingguy.php-versions
@@ -34,3 +34,6 @@
     - role: devetek.caddyserver
       tags:
         - caddyserver
+    - role: robertdebock.logrotate
+      tags:
+        - logrotate
