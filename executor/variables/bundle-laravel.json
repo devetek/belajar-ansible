@@ -140,5 +140,26 @@
     "router_action": "install",
     "router_filename": "http-localhost-50001",
     "router_domain": "http://localhost:50001",
-    "router_content": "import phpfastcgi {{ router_domain }} unix//home/prakasa1904/run/php-fpm/{{ build_appname }}.sock {{ laravel_install_path }}/public"
+    "router_content": "import phpfastcgi {{ router_domain }} unix//home/prakasa1904/run/php-fpm/{{ build_appname }}.sock {{ laravel_install_path }}/public",
+    "logrotate_frequency": "daily",
+    "logrotate_keep": 3,
+    "logrotate_compress": true,
+    "logrotate_entries": [
+        {
+            "name": "{{ deploy_service_name }}",
+            "path": "/home/prakasa1904/apps/{{ build_appname }}/*.log",
+            "missingok": true,
+            "frequency": "weekly",
+            "create": true,
+            "create_mode": "0664",
+            "create_user": "prakasa1904",
+            "create_group": "prakasa1904",
+            "minsize": "1M",
+            "maxsize": "20M",
+            "dateext": true,
+            "dateformat": "-%Y%m%d",
+            "keep": 3,
+            "postrotate": "service {{ deploy_service_name }} restart"
+        }
+    ]
 }

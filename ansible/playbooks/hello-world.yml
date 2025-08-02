@@ -17,3 +17,29 @@
           - "ansible_machine_id is: {{ ansible_machine_id }}"
           - "ansible_architecture is: {{ ansible_architecture }}"
           - "ansible_default_ipv4 is: {{ ansible_default_ipv4 }}"
+    - name: Check if port is open
+      ansible.builtin.wait_for:
+        port: 9000
+        state: started
+        timeout: 3
+      ignore_errors: true
+      register: port_check
+
+    - name: Check error message
+      ansible.builtin.debug:
+        msg: "Port is closed: {{ port_check.msg }}"
+      when: port_check.msg is defined
+
+    - name: set fact port is open if port_check.msg is exist
+      ansible.builtin.set_fact:
+        is_open: false
+      when: port_check.msg is defined
+
+    - name: set fact port is open if port_check.msg is not exist
+      ansible.builtin.set_fact:
+        is_open: true
+      when: port_check.msg is not defined
+
+    - name: Print is_open port
+      ansible.builtin.debug:
+        msg: "is_open: {{ is_open }}"
