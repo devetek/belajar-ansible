@@ -1,0 +1,95 @@
+---
+- name: Install Helm and Import Kube Credentials
+  hosts: all
+  become: yes
+  gather_facts: true
+
+  vars:
+    helm_install_method: "script"  # options: "script" or "binary"
+    helm_version: "v3.17.0"        # adjust as needed
+    kubeconfig_src: "{{ playbook_dir }}/../inventory/kubeconfig"
+    kubeconfig_dest: "{{ ansible_env.HOME }}/.kube/config"
+    loki_values_file: "{{ playbook_dir }}/../inventory/loki_distributed_manifest.yml"
+    loki_namespace: "monitoring"
+
+  tasks:
+    - name: Ensure curl is installed
+      ansible.builtin.package:
+        name: curl
+        state: present
+
+    - name: Install Helm via official script
+      ansible.builtin.shell: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+      when: helm_install_method == "script"
+      args:
+        chdir: /tmp
+
+    - name: Install Helm from binary release
+      block:
+        - name: Download Helm binary archive
+          ansible.builtin.get_url:
+            url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+            dest: /tmp/helm.tar.gz
+            mode: '0644'
+
+        - name: Unarchive Helm binary
+          ansible.builtin.unarchive:
+            src: /tmp/helm.tar.gz
+            dest: /tmp
+            remote_src: true
+
+        - name: Move Helm binary to /usr/local/bin
+          ansible.builtin.copy:
+            src: /tmp/linux-amd64/helm
+            dest: /usr/local/bin/helm
+            mode: '0755'
+      when: helm_install_method == "binary"
+
+    - name: Clean up Helm download artifacts (binary method)
+      ansible.builtin.file:
+        path: /tmp/helm.tar.gz
+        state: absent
+      when: helm_install_method == "binary"
+
+    - name: Ensure kubeconfig directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.kube"
+        state: directory
+        mode: '0700'
+
+    - name: Copy kubeconfig to local user
+      ansible.builtin.copy:
+        src: "{{ kubeconfig_src }}"
+        dest: "{{ kubeconfig_dest }}"
+        mode: '0600'
+
+    - name: Verify Helm installation
+      ansible.builtin.command:
+        cmd: helm version --short
+      register: helm_version_check
+
+    - name: Show installed Helm version
+      ansible.builtin.debug:
+        var: helm_version_check.stdout
+
+    - name: Add Grafana Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add grafana https://grafana.github.io/helm-charts
+      register: add_repo_result
+      changed_when: "'already exists' not in add_repo_result.stderr"
+
+    - name: Update Helm repos
+      ansible.builtin.command:
+        cmd: helm repo update
+
+    - name: Deploy Loki Distributed
+      ansible.builtin.command:
+        cmd: >
+          helm upgrade loki grafana/loki-distributed
+          --install
+          --values {{ loki_values_file }}
+          --namespace {{ loki_namespace }}
+          --create-namespace

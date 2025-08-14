@@ -1,0 +1,15 @@
+---
+- name: Import Grafana dashboard from JSON using service account token
+  hosts: all
+  become: false
+  vars:
+    grafana_url: "http://103.174.114.222:3003"  # Change to your Grafana URL
+    grafana_token: ""  # Your service account token
+  tasks:
+    - name: Import dashboard JSON to Grafana
+      community.grafana.grafana_dashboard:
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_token }}"
+        state: present
+        overwrite: true
+        path: "{{ playbook_dir }}/../roles/devetek.import-grafana-dashboard/files/dashboard.json"

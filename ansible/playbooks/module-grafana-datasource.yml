@@ -1,0 +1,52 @@
+---
+- name: Create API Key and Add Loki Datasource
+  hosts: all
+  become: yes
+  collections:
+    - grafana.grafana
+
+  vars:
+    grafana_url: "http://localhost:3000"
+    grafana_user: "admin"
+    grafana_password: "dpanelterpusat"
+    loki_url: "http://localhost:3100"
+    api_key_name: "ansible-key"
+    api_key_role: "Admin"
+    api_key_ttl: 0  # 0 means never expires
+
+  tasks:
+    - name: Create API key in Grafana
+      uri:
+        url: "{{ grafana_url }}/api/auth/keys"
+        method: POST
+        user: "{{ grafana_user }}"
+        password: "{{ grafana_password }}"
+        force_basic_auth: yes
+        headers:
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          name: "{{ api_key_name }}"
+          role: "{{ api_key_role }}"
+          secondsToLive: "{{ api_key_ttl }}"
+        return_content: yes
+        status_code: 200
+      register: create_api_key
+
+    - name: Set fact with API key
+      set_fact:
+        grafana_api_key: "{{ create_api_key.json.key }}"
+
+    - name: Add Loki datasource to Grafana
+      grafana.grafana.datasource:
+        dataSource: |
+          {
+            "name": "Loki",
+            "type": "loki",
+            "access": "proxy",
+            "url": "{{ loki_url }}",
+            "isDefault": false
+          }
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_api_key }}"
+        state: present

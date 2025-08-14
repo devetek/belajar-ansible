@@ -1,0 +1,5 @@
+- name: Backup database to GCS
+  hosts: all
+  become: true
+  roles:
+    - devetek.backup-db
