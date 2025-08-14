@@ -1,0 +1,5 @@
+- name: Manage loki service
+  hosts: all
+  become: true
+  roles:
+    - role: grafana.grafana.loki

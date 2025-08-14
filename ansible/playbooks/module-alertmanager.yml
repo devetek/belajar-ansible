@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - role: cloudalchemy.alertmanager
+      vars:
+        alertmanager_web_listen_address: "0.0.0.0:9093"
+
+        alertmanager_smtp:
+          smarthost: 'smtp.office365.com:587'
+          from: 'no-reply@tap-agri.com'
+          auth_username: 'no-reply@tap-agri.com'
+          auth_password: 'lyggwfndtmqmvrfw'
+          require_tls: true
+
+        alertmanager_route:
+          group_by: ['instance', 'severity']
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 3h
+          receiver: 'general'
+          routes:
+            - match:
+                env: 'network'
+              receiver: 'null'
+
+        alertmanager_receivers:
+          - name: 'general'
+            email_configs:
+              - to: 'muhamad.patahuddin@tap-agri.com'
+          - name: 'null'
+
+        alertmanager_inhibit_rules: []

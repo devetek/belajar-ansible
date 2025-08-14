@@ -1,0 +1,8 @@
+# restore-playbook.yml
+
+- name: Restore database from SQL file
+  hosts: all
+  gather_facts: false
+  become: true
+  roles:
+    - role: devetek.restore-db

@@ -1,11 +1,67 @@
 ---
-# The interface where the app process should listen on.
-# Defaults to the first interface. Change this to:
-# 
-#  iface: eth1
-#
-# ...to override.
-# 
-group_var_address: '{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}'
-
+# Defaults to the first interface
+group_var_address: '{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}'
 group_vars_environment: 'development'
+
+# grafana env
+grafana_agent:
+  install: false
+
+grafana_ini:
+  server:
+    http_addr: "0.0.0.0"
+    http_port: 3003
+    domain: "localhost"
+    root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
+  security:
+    admin_user: admin
+    admin_password: dpanelterpusat
+
+grafana_datasources:
+  - name: prometheus
+    type: prometheus
+    access: proxy
+    url: http://localhost:9090
+    basicAuth: false
+  - name: loki
+    type: loki
+    access: proxy
+    url: http://localhost:3100
+    basicAuth: false
+
+grafana_dashboards:
+  - dashboard_id: 1860  # Node Exporter Full
+    revision_id: 27
+    datasource: prometheus
+    state: present
+
+prometheus_targets:
+  node:
+  - targets:
+    - localhost:9100
+    labels:
+      env: development
+
+promtail_clients:
+  - url: http://localhost:3100/loki/api/v1/push
+
+# Uptrace Bundle
+ch_cluster: uptrace1
+ch_password: admin
+ch_database: uptracepass
+
+pg_database: uptrace
+pg_user: uptrace
+pg_password: uptracepass
+
+##### Domain for SSL certificate
+# site_url: https://your-domain.com/
+
+# # Enable Let's Encrypt
+# certmagic_enabled: true
+
+# # Use staging environment for testing (disable for production)
+# certmagic_staging_ca: true
+
+# # Listen on HTTPS port
+# listen_http_addr: ':443'

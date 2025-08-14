@@ -1,0 +1,21 @@
+- name: Manage promtail service
+  hosts: all
+  become: true
+  vars:
+    promtail_scrape_configs:
+      - job_name: system
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              job: syslog
+              instance: "{{ ansible_facts['fqdn'] }}"
+              __path__: /var/log/syslog
+          - targets:
+              - localhost
+            labels:
+              job: auth
+              instance: "{{ ansible_facts['fqdn'] }}"
+              __path__: /var/log/auth.log
+  roles:
+    - role: grafana.grafana.promtail

@@ -1,0 +1,15 @@
+- name: Install Prometheus
+  hosts: all
+  become: yes
+  roles:
+    - prometheus.prometheus.prometheus
+- name: Install Node Expoerter
+  hosts: all
+  become: yes
+  roles:
+    - prometheus.prometheus.node_exporter
+- name: Install Alert Manager
+  hosts: all
+  become: yes
+  roles:
+    - prometheus.prometheus.alertmanager

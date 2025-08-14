@@ -1,0 +1,14 @@
+- name: Ensure Python dependencies are installed
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install jmespath via pip
+      ansible.builtin.pip:
+        name: jmespath
+        state: present
+        executable: pip3  # atau pip jika sistem pakai Python 2
+- name: Install Grafana Server
+  hosts: all
+  become: yes
+  roles:
+    - grafana.grafana.grafana
