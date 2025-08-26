@@ -21,24 +21,72 @@ services:
       # Fake Authorized Key
       - ${PWD}/ssh-key/id_rsa_fake:/executor/id_rsa_fake
     restart: unless-stopped
-  ansible-inventory:
+  ansible-inventory-ubuntu-22:
     image: docker.io/prakasa1904/sshserver:ubuntu-22.04
     working_dir: /root
-    container_name: ansible-inventory
+    container_name: ansible-inventory-1
     privileged: true
     ports:
       - 10001:22
-      - 50000:50000
-      - 50001:50001
-      - 50002:50002
-      - 50003:50003
-      - 50004:50004
-      - 50005:50005
-      - 50006:50006
-      - 50007:50007
-      - 50008:50008
-      - 50009:50009
-      - 50010:50010
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
+  ansible-inventory-ubuntu-24:
+    image: docker.io/prakasa1904/sshserver:ubuntu-22.04
+    working_dir: /root
+    container_name: ansible-inventory-2
+    privileged: true
+    ports:
+      - 10002:22
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
+  
+  ansible-inventory-almalinux-9:
+    image: prakasa1904/sshserver:almalinux-9
+    working_dir: /root
+    container_name: ansible-inventory-3
+    privileged: true
+    ports:
+      - 10003:22
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
+
+  ansible-inventory-rockylinux-9:
+    image: prakasa1904/sshserver:rockylinux-9
+    working_dir: /root
+    container_name: ansible-inventory-4
+    privileged: true
+    ports:
+      - 10004:22
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
+
+  ansible-inventory-fedora-43:
+    image: prakasa1904/sshserver:fedora-43
+    working_dir: /root
+    container_name: ansible-inventory-5
+    privileged: true
+    ports:
+      - 10005:22
+    volumes:
+      - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
+      - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
+    restart: unless-stopped
+
+  ansible-inventory-centos-stream-10:
+    image: prakasa1904/sshserver:centos-stream-10
+    working_dir: /root
+    container_name: ansible-inventory-6
+    privileged: true
+    ports:
+      - 10006:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
