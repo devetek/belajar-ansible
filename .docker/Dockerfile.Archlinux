@@ -1,0 +1,4 @@
+# Not supported image for arm64
+FROM archlinux:base-20250817.0.405639 
+
+# WIP (waiting for new laptop amd64!)

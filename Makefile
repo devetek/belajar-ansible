@@ -73,11 +73,41 @@ enter-ansible-executor: ## Enter to ansible-executor
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10000
 
-enter-ansible-inventory: ## Enter to ansible-inventory
+ansible-inventory-ubuntu-22: ## Enter to ansible-inventory-ubuntu-22
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
 	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10001
+
+ansible-inventory-ubuntu-24: ## Enter to ansible-inventory-ubuntu-24
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
+	@chmod 0600 ssh-key/id_rsa_fake
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10002
+
+ansible-inventory-almalinux-9: ## Enter to ansible-inventory-almalinux-9
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
+	@chmod 0600 ssh-key/id_rsa_fake
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10003
+
+ansible-inventory-rockylinux-9: ## Enter to ansible-inventory-rockylinux-9
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
+	@chmod 0600 ssh-key/id_rsa_fake
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10004
+
+ansible-inventory-fedora-43: ## Enter to ansible-inventory-fedora-43
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
+	@chmod 0600 ssh-key/id_rsa_fake
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10005
+
+ansible-inventory-centos-stream-10: ## Enter to ansible-inventory-centos-stream-10
+	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
+	@rm ~/.ssh/known_hosts || echo "ignore!"
+	@chmod 0600 ssh-key/id_rsa_fake
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10006
 
 log: .bin-validator ## Show containers log
 	@docker-compose -f docker-compose.yml logs -f

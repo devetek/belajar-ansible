@@ -1,0 +1,31 @@
+FROM ubuntu:22.04
+
+ARG ARG_ARCH=arm64
+ARG ARG_GOLANG_VERSION=1.23.3
+ARG ARG_ANSIBLE_CORE_VERSION=2.16.0
+
+ENV ARCH=${ARG_ARCH}
+ENV GOLANG_VERSION=${ARG_GOLANG_VERSION}
+ENV ANSIBLE_CORE_VERSION=${ARG_ANSIBLE_CORE_VERSION}
+
+RUN apt-get update && \
+    apt install iproute2 make libc6 curl openssh-server sudo git net-tools iputils-ping lsb-release -y
+
+# Go installation
+# https://www.cyberciti.biz/faq/how-to-install-gol-ang-on-ubuntu-linux/
+RUN curl -O -L "https://golang.org/dl/go${GOLANG_VERSION}.linux-${ARCH}.tar.gz" && \
+    tar -xf "go${GOLANG_VERSION}.linux-${ARCH}.tar.gz" &&  sudo mv -v go /usr/local && \
+    printf "\n# set up Go lang path #\nexport GOPATH=$HOME/go\nexport PATH=\$PATH:/usr/local/go/bin:$GOPATH/bin" >> ~/.bashrc && rm "go${GOLANG_VERSION}.linux-${ARCH}.tar.gz"
+
+# Ansible installation
+# https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py --user && python3 -m pip install --user ansible-core==${ANSIBLE_CORE_VERSION} && \
+    printf "\n# set up Ansible Binary #\nexport PATH=\$PATH:$HOME/.local/bin" >> ~/.bashrc && \
+    /root/.local/bin/ansible-galaxy collection install ansible.posix community.general community.mongodb community.mysql community.postgresql
+
+RUN systemctl enable ssh
+
+EXPOSE 22
+
+CMD ["/sbin/init", "&&", "service ssh start"]

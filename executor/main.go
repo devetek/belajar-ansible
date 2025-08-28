@@ -106,7 +106,7 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
 			}),
 			execute.WithTransformers(
-				transformer.Prepend("(ansible-handler)"),
+				transformer.Prepend("(dPanel ID)"),
 			),
 		),
 		configuration.WithAnsibleForceColor(),

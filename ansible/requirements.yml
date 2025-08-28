@@ -68,7 +68,7 @@ roles:
     version: main
   - name: githubixx.docker
     src: https://github.com/devetek/ansible-role-docker
-    version: fix-compatibility
+    version: fix-missing-deps
   - name: zhongwencool.emqx
     version: v1.0.0
 
