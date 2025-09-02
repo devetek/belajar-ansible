@@ -1,0 +1,43 @@
+---
+- name: Check if restore file exists
+  become: yes
+  stat:
+    path: "{{ restore_file }}{% if restore_compress and not restore_file.endswith('.gz') %}.gz{% endif %}"
+  register: restore_file_stat
+
+- name: Fail if restore file does not exist
+  fail:
+    msg: "Restore file {{ restore_file }}{% if restore_compress and not restore_file.endswith('.gz') %}.gz{% endif %} not found!"
+  when: not restore_file_stat.stat.exists
+
+- name: Ensure target database exists (create if not present)
+  become: yes
+  shell: |
+    PGPASSWORD="{{ restore_db_password }}" psql -h {{ restore_db_host }} -p {{ restore_db_port }} -U {{ restore_db_user }} -d postgres -tc "SELECT 1 FROM pg_database WHERE datname='{{ restore_db_name }}'" | grep -q 1 || \
+    PGPASSWORD="{{ restore_db_password }}" createdb -h {{ restore_db_host }} -p {{ restore_db_port }} -U {{ restore_db_user }} {{ restore_db_name }}
+  args:
+    executable: /bin/bash
+  register: db_create_result
+  changed_when: "'CREATE DATABASE' in db_create_result.stdout or db_create_result.rc == 0"
+
+- name: Restore PostgreSQL database
+  become: yes
+  shell: >
+    {% if restore_compress %}
+    gunzip -c {{ restore_file }} | PGPASSWORD="{{ restore_db_password }}" psql -h {{ restore_db_host }} -p {{ restore_db_port }} -U {{ restore_db_user }} {{ restore_db_name }}
+    {% else %}
+    PGPASSWORD="{{ restore_db_password }}" psql -h {{ restore_db_host }} -p {{ restore_db_port }} -U {{ restore_db_user }} {{ restore_db_name }} < {{ restore_file }}
+    {% endif %}
+  args:
+    executable: /bin/bash
+  environment:
+    PGHOST: "{{ restore_db_host }}"
+    PGPORT: "{{ restore_db_port }}"
+    PGUSER: "{{ restore_db_user }}"
+    PGPASSWORD: "{{ restore_db_password }}"
+    ANSIBLE_REMOTE_TEMP: "/tmp"
+  register: restore_result
+
+- name: Show restore result
+  debug:
+    msg: "Database {{ restore_db_name }} restored from {{ restore_file }}{% if restore_compress %}.gz{% endif %}"
