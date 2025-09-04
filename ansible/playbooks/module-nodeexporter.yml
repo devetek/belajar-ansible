@@ -1,0 +1,8 @@
+# playbooks/module-nodeexporter.yml
+
+---
+- name: Install Node Exporter
+  hosts: remote
+  gather_facts: yes
+  roles:
+    - prometheus.prometheus.node_exporter

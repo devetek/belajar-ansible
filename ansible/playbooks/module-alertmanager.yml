@@ -1,4 +1,9 @@
 ---
+- name: Install Alert Manager
+  hosts: all
+  become: yes
+  roles:
+    - prometheus.prometheus.alertmanager
 - hosts: all
   become: true
   roles:

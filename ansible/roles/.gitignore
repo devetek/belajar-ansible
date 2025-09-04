@@ -9,3 +9,5 @@
 # Allow these two roles
 !devetek.backup-db-postgresql/**
 !devetek.restore-db-postgresql/**
+!clickhouse-install/**
+!clickhouse-install/**
