@@ -1,5 +1,6 @@
 # Ignore everything by default
 *
+*/
 
 # But keep these files/folders
 !.gitignore
@@ -7,7 +8,11 @@
 !README.md
 
 # Allow these two roles
+!devetek.backup-db-postgresql/
+!devetek.restore-db-postgresql/
+!clickhouse-install/
+
+# Anda juga perlu menyertakan file-file di dalam direktori
 !devetek.backup-db-postgresql/**
 !devetek.restore-db-postgresql/**
-!clickhouse-install/**
 !clickhouse-install/**
