@@ -2,7 +2,7 @@
 
 ---
 - name: Install Node Exporter
-  hosts: remote
+  hosts: all
   gather_facts: yes
   roles:
     - prometheus.prometheus.node_exporter
