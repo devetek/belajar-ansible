@@ -12,11 +12,19 @@
 !devetek.restore-db-postgresql/
 !clickhouse-install/
 !clickhouse-server/
-!devetek.alertmanager/
-
-# Allow folder
 !devetek.backup-db-postgresql/**
 !devetek.restore-db-postgresql/**
 !clickhouse-install/**
 !clickhouse-server/**
+!devetek.alertmanager/
 !devetek.alertmanager/**
+!devetek.devetek.restore-db-postgresql/
+!devetek.devetek.restore-db-postgresql/**
+!devetek.devetek.grafana-dashboard-json/
+!devetek.devetek.grafana-dashboard-json/**
+!devetek.devetek.helm-install/
+!devetek.devetek.helm-install/**
+!devetek.devetek.helm-release/
+!devetek.devetek.helm-release/**
+!devetek.devetek.kube-login/
+!devetek.devetek.kube-login/**
