@@ -1,0 +1,39 @@
+---
+- name: Pastikan direktori backup ada
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Cek database yang ada
+  mysql_db:
+    login_user: "{{ mysql_user }}"
+    login_password: "{{ mysql_password }}"
+    name: "{{ item }}"
+    state: present
+  loop: "{{ databases }}"
+  register: db_check
+  check_mode: yes
+
+- name: Set daftar database yang ada
+  set_fact:
+    databases_exist: >-
+      {{
+        db_check.results
+        | selectattr('failed', 'equalto', false)
+        | map(attribute='item')
+        | list
+      }}
+
+- name: Backup database yang ada
+  shell: |
+    mysqldump -h {{ mysql_host }} -P {{ mysql_port }} -u {{ mysql_user }} -p'{{ mysql_password }}' {{ item }} | gzip > {{ backup_dir }}/{{ item }}-{{ ansible_date_time.iso8601_basic_short }}.sql.gz
+  loop: "{{ databases_exist }}"
+  args:
+    executable: /bin/bash
+  register: backup_result
+  ignore_errors: yes
+
+- name: Tampilkan hasil backup
+  debug:
+    var: backup_result

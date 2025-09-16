@@ -10,10 +10,15 @@
 # Allow file
 !devetek.backup-db-postgresql/
 !devetek.restore-db-postgresql/
-!clickhouse-install/
-!clickhouse-server/
+!devetek.backup-db-postgresql/**
+!devetek.restore-db-postgresql/**
+!devetek.backup-db-mysql/
+!devetek.restore-db-mysql/
 !devetek.backup-db-mysql/**
 !devetek.restore-db-mysql/**
+
+!clickhouse-install/
+!clickhouse-server/
 !clickhouse-install/**
 !clickhouse-server/**
 !devetek.alertmanager/
