@@ -31,3 +31,10 @@
 !devetek.helm-release/**
 !devetek.kube-login/
 !devetek.kube-login/**
+
+
+!devetek.gcp-sdk/
+!devetek.gcp-sdk/**
+
+!devetek.gcs-bucket/
+!devetek.gcs-bucket/**

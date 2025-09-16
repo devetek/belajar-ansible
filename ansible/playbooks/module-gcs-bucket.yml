@@ -1,0 +1,10 @@
+- hosts: localhost
+  roles:
+    - role: devetek.gcs-bucket
+      vars:
+        gcs_project: "terpusat"
+        gcs_bucket: "bbo-static-asset"
+        gcs_credentials_file: "~/credential/gcp-key.json"
+        gcs_local_file: "/tmp/report.log"
+        gcs_dest_file: "logs/report.log"
+        gcs_operation: "copy"

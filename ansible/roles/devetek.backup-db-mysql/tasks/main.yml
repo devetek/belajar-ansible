@@ -27,7 +27,7 @@
 
 - name: Backup database yang ada
   shell: |
-    mysqldump -h {{ mysql_host }} -P {{ mysql_port }} -u {{ mysql_user }} -p'{{ mysql_password }}' {{ item }} | gzip > {{ backup_dir }}/{{ item }}-{{ ansible_date_time.iso8601_basic_short }}.sql.gz
+    mysqldump -h {{ mysql_host }} -P {{ mysql_port }} -u {{ mysql_user }} -p'{{ mysql_password }}' {{ item }} | gzip > {{ backup_dir }}/{{ backup_filename }}.sql.gz
   loop: "{{ databases_exist }}"
   args:
     executable: /bin/bash
