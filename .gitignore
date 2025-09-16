@@ -1,2 +1,5 @@
 .pyenv
 .vscode
+.bash_history
+.cache/
+.sudo_as_admin_successful

@@ -13,6 +13,6 @@
 !clickhouse-install/
 
 # Anda juga perlu menyertakan file-file di dalam direktori
-!devetek.backup-db-postgresql/**
-!devetek.restore-db-postgresql/**
+!devetek.backup-db-mysql/**
+!devetek.restore-db-mysql/**
 !clickhouse-install/**
