@@ -7,12 +7,24 @@
 !.gitkeep
 !README.md
 
-# Allow these two roles
+# Allow file
 !devetek.backup-db-postgresql/
 !devetek.restore-db-postgresql/
 !clickhouse-install/
-
-# Anda juga perlu menyertakan file-file di dalam direktori
-!devetek.backup-db-mysql/**
-!devetek.restore-db-mysql/**
+!clickhouse-server/
+!devetek.backup-db-postgresql/**
+!devetek.restore-db-postgresql/**
 !clickhouse-install/**
+!clickhouse-server/**
+!devetek.alertmanager/
+!devetek.alertmanager/**
+!devetek.restore-db-postgresql/
+!devetek.restore-db-postgresql/**
+!devetek.grafana-dashboard-json/
+!devetek.grafana-dashboard-json/**
+!devetek.helm-install/
+!devetek.helm-install/**
+!devetek.helm-release/
+!devetek.helm-release/**
+!devetek.kube-login/
+!devetek.kube-login/**
