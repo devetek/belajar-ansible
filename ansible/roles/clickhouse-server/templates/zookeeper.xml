@@ -1,0 +1,18 @@
+#jinja2: trim_blocks:False
+<?xml version="1.0" ?>
+<clickhouse>
+  <zookeeper>
+{%- for host in groups['clickhouse_keeper'] %}
+    <node>
+      <host>{{ hostvars[host].ansible_default_ipv4.address }}</host>
+      <port>9181</port>
+    </node>
+{%- endfor %}
+    <session_timeout_ms>100000</session_timeout_ms>
+    <operation_timeout_ms>60000</operation_timeout_ms>
+  </zookeeper>
+
+  <distributed_ddl>
+    <path>/clickhouse/cluster1/task_queue/ddl</path>
+  </distributed_ddl>
+</clickhouse>

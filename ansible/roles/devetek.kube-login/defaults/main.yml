@@ -1,0 +1,12 @@
+---
+# Option 1: Use an existing kubeconfig file
+kubeconfig_src: "{{ playbook_dir }}/../inventory/kubeconfig"
+kubeconfig_dest: "{{ ansible_env.HOME }}/.kube/config"
+
+# Option 2: Use API server + token (service account login)
+k8s_api_server: ""
+k8s_token: ""
+k8s_namespace: "default"
+
+# Whether to overwrite kubeconfig or not
+kubeconfig_force: true

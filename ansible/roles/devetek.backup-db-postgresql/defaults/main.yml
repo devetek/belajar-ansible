@@ -1,0 +1,14 @@
+---
+# Database connection
+backup_db_host: "localhost"
+backup_db_port: 5432
+backup_db_user: "backup_user"
+backup_db_password: "StrongPassword123"
+backup_db_name: "company_db"
+
+# Backup file path
+backup_dir: "/home/devuser/backup"
+backup_filename: "{{ backup_db_name }}-{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}.sql"
+
+# Optional: compress backup
+backup_compress: true

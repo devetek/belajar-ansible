@@ -1,0 +1,26 @@
+---
+- name: Create backup directory if not exists
+  become: yes
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Backup PostgreSQL database
+  become: yes
+  shell: |
+    set -o pipefail
+    pg_dump -h {{ backup_db_host }} -p {{ backup_db_port }} -U {{ backup_db_user }} {{ backup_db_name }} \
+    {% if backup_compress %} | gzip {% endif %} \
+    > {{ backup_dir }}/{{ backup_filename }}{% if backup_compress %}.gz{% endif %}
+  args:
+    executable: /bin/bash
+  environment:
+    PGPASSWORD: "{{ backup_db_password }}"
+  register: backup_result
+  failed_when: backup_result.rc != 0
+
+
+- name: Show backup result
+  debug:
+    msg: "Backup created at {{ backup_dir }}/{{ backup_filename }}{% if backup_compress %}.gz{% endif %}"

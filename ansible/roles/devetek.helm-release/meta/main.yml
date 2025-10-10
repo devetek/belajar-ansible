@@ -1,0 +1,8 @@
+---
+galaxy_info:
+  role_name: helm_release
+  author: your_name
+  description: Deploy Helm releases from config
+  license: MIT
+  min_ansible_version: 2.10
+  dependencies: []

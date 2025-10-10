@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  role_name: k8s_login
+  author: your_name
+  description: Setup Kubernetes login (via kubeconfig file or token)
+  license: MIT
+  min_ansible_version: 2.10

@@ -1,0 +1,3 @@
+---
+gcs_credentials_file: "~/credential/gcp-key.json"
+gcs_credentials_dest: "/etc/gcp/credentials.json"

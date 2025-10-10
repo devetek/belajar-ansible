@@ -1,0 +1,34 @@
+---
+- name: Set config files
+  set_fact:
+    config_files:
+      - config.xml
+      - storage.xml
+
+- name: Add cluster.xml
+  set_fact:
+    config_files: "{{ config_files + ['cluster.xml'] }}"
+  when: ch_distributed
+
+- name: Add zookeeper.xml
+  set_fact:
+    config_files: "{{ config_files + ['zookeeper.xml'] }}"
+  when: ch_replicated
+
+- name: Upload server config
+  template:
+    src: '{{ item }}'
+    dest: /etc/clickhouse-server/config.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart ClickHouse
+  loop: '{{ config_files }}'
+
+- name: Upload users config
+  template:
+    src: users.xml
+    dest: /etc/clickhouse-server/users.d/users.xml
+    owner: root
+    group: root
+    mode: 0644

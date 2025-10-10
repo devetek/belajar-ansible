@@ -1,0 +1,10 @@
+---
+# Default Helm release config
+helm_releases:
+  - name: my-app
+    namespace: default
+    chart_repo: https://charts.bitnami.com/bitnami
+    chart_name: nginx
+    chart_version: 15.5.0
+    values: {}
+    state: present

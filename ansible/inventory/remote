@@ -1,0 +1,2 @@
+[remote]
+103.196.155.63 ansible_connection=local ansible_service_mgr=systemd

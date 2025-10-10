@@ -1,0 +1,50 @@
+---
+- name: Ensure curl is installed
+  ansible.builtin.package:
+    name: curl
+    state: present
+
+- name: Install Helm via official script
+  ansible.builtin.shell: |
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    chmod 700 get_helm.sh
+    ./get_helm.sh
+  when: helm_install_method == "script"
+  args:
+    chdir: /tmp
+
+- name: Install Helm from binary release
+  block:
+    - name: Download Helm binary archive
+      ansible.builtin.get_url:
+        url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+        dest: /tmp/helm.tar.gz
+        mode: '0644'
+
+    - name: Unarchive Helm binary
+      ansible.builtin.unarchive:
+        src: /tmp/helm.tar.gz
+        dest: /tmp
+        remote_src: true
+
+    - name: Move Helm binary to /usr/local/bin
+      ansible.builtin.copy:
+        src: /tmp/linux-amd64/helm
+        dest: /usr/local/bin/helm
+        mode: '0755'
+  when: helm_install_method == "binary"
+
+- name: Clean up Helm download artifacts (binary method)
+  ansible.builtin.file:
+    path: /tmp/helm.tar.gz
+    state: absent
+  when: helm_install_method == "binary"
+
+- name: Verify Helm installation
+  ansible.builtin.command:
+    cmd: helm version --short
+  register: helm_version_check
+
+- name: Show installed Helm version
+  ansible.builtin.debug:
+    var: helm_version_check.stdout

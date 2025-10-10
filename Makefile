@@ -47,8 +47,6 @@ help: .bin-validator ## Show available commands
 		printf "\n\033[1m%s\033[0m\n", substr($$0, 5) \
 	}' $(MAKEFILE_LIST)
 
-
-
 ################################################################################
 ##@ DEVELOPMENT
 ################################################################################
@@ -91,7 +89,6 @@ freeze: .bin-validator ## Freezing Deps
 		source .pyenv/bin/activate; \
 		pip freeze > ansible/requirements.txt; \
 	)
-
 
 # Hidden target, for contributors only
 git-clean:

@@ -1,0 +1,13 @@
+---
+# Default variables for restore MySQL role
+
+mysql_host: "localhost"
+mysql_port: 3306
+mysql_user: "restore_user"
+mysql_password: "restore_password"
+
+# Database yang akan direstore
+database: "company_db"
+
+# File backup .sql.gz yang akan direstore
+restore_file: "/home/devuser/backup/company_db-20250903T145228.sql.gz"

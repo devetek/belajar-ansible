@@ -1,0 +1,11 @@
+---
+# Database connection
+restore_db_host: "localhost"
+restore_db_port: 5432
+restore_db_user: "backup_user"
+restore_db_password: "StrongPassword123"
+restore_db_name: "company_db"
+
+# Backup file path
+restore_file: "/home/devuser/backup/company_db-20250902162753.sql"
+restore_compress: true  # set true if the file is .gz

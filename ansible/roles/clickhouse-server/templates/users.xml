@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<clickhouse>
+  <profiles>
+    <default>
+      <log_queries>0</log_queries>
+      <log_query_threads>0</log_query_threads>
+
+      <materialize_ttl_after_modify>0</materialize_ttl_after_modify>
+      <mutations_sync>2</mutations_sync>
+
+      <max_bytes_before_external_group_by>{{ (ansible_memtotal_mb / 2 * 1024 * 1024)|int }}</max_bytes_before_external_group_by>
+      <max_bytes_before_external_sort>{{ (ansible_memtotal_mb / 2 * 1024 * 1024)|int }}</max_bytes_before_external_sort>
+    </default>
+  </profiles>
+
+  <users>
+    <{{ ch_db_user }}>
+      <password>{{ ch_db_password }}</password>
+
+      <networks>
+        <ip>::/0</ip>
+      </networks>
+    </{{ ch_db_user }}>
+  </users>
+</clickhouse>

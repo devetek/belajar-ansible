@@ -1,0 +1,6 @@
+- hosts: redis_cache
+  become: yes
+
+  roles:
+    - redis-install
+    - redis-cache

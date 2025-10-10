@@ -1,0 +1,56 @@
+---
+- name: Install required packages
+  apt:
+    name: "{{ required_packages }}"
+    state: present
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install google cloud python library
+  pip:
+    name:
+      - google-auth
+      - google-auth-oauthlib
+      - google-auth-httplib2
+      - google-api-python-client
+      - google-cloud-storage
+    state: present
+
+- name: Ensure GOOGLE_APPLICATION_CREDENTIALS is set
+  copy:
+    src: "{{ gcs_credentials_file }}"
+    dest: "/etc/gcp/credentials.json"
+    owner: root
+    group: root
+    mode: '0600'
+  become: yes
+  when: gcs_credentials_file is defined
+
+- name: Export GOOGLE_APPLICATION_CREDENTIALS
+  lineinfile:
+    path: /etc/environment
+    line: "GOOGLE_APPLICATION_CREDENTIALS=/etc/gcp/credentials.json"
+    create: yes
+  become: yes
+
+- name: Copy file to GCS
+  command: >
+    gsutil cp {{ gcs_local_file }} gs://{{ gcs_bucket }}/{{ gcs_dest_file }}
+  when: gcs_operation == "copy"
+
+- name: Move file to GCS (copy then delete local)
+  block:
+    - name: Copy file to GCS
+      command: >
+        gsutil cp {{ gcs_local_file }} gs://{{ gcs_bucket }}/{{ gcs_dest_file }}
+
+    - name: Delete local file after move
+      file:
+        path: "{{ gcs_local_file }}"
+        state: absent
+  when: gcs_operation == "move"
+
+- name: Delete file from GCS
+  command: >
+    gsutil rm gs://{{ gcs_bucket }}/{{ gcs_dest_file }}
+  when: gcs_operation == "delete"

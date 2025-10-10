@@ -1,4 +1,40 @@
+# Ignore everything by default
 *
+*/
+
+# But keep these files/folders
 !.gitignore
 !.gitkeep
 !README.md
+
+# Allow file
+!devetek.backup-db-postgresql/
+!devetek.restore-db-postgresql/
+!devetek.backup-db-postgresql/**
+!devetek.restore-db-postgresql/**
+!devetek.backup-db-mysql/
+!devetek.restore-db-mysql/
+!devetek.backup-db-mysql/**
+!devetek.restore-db-mysql/**
+
+!clickhouse-install/
+!clickhouse-server/
+!clickhouse-install/**
+!clickhouse-server/**
+!devetek.alertmanager/
+!devetek.alertmanager/**
+!devetek.grafana-dashboard-json/
+!devetek.grafana-dashboard-json/**
+!devetek.helm-install/
+!devetek.helm-install/**
+!devetek.helm-release/
+!devetek.helm-release/**
+!devetek.kube-login/
+!devetek.kube-login/**
+
+
+!devetek.gcp-sdk/
+!devetek.gcp-sdk/**
+
+!devetek.gcs-bucket/
+!devetek.gcs-bucket/**
