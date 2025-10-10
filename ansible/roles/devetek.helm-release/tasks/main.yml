@@ -1,0 +1,30 @@
+---
+- name: Ensure namespace exists
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ item.namespace }}"
+    state: present
+  loop: "{{ helm_releases }}"
+  when: item.namespace is defined
+
+- name: Add Helm repo
+  kubernetes.core.helm_repository:
+    name: "{{ item.chart_name }}-repo"
+    repo_url: "{{ item.chart_repo }}"
+  loop: "{{ helm_releases }}"
+  loop_control:
+    label: "{{ item.chart_repo }}"
+
+- name: Install/Upgrade Helm release
+  kubernetes.core.helm:
+    name: "{{ item.name }}"
+    chart_ref: "{{ item.chart_name }}-repo/{{ item.chart_name }}"
+    chart_version: "{{ item.chart_version | default(omit) }}"
+    release_namespace: "{{ item.namespace | default('default') }}"
+    values: "{{ item.values | default({}) }}"
+    state: "{{ item.state | default('present') }}"
+    create_namespace: true
+  loop: "{{ helm_releases }}"
+  loop_control:
+    label: "{{ item.name }}"

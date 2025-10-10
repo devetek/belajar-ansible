@@ -1,0 +1,5 @@
+- hosts: uptrace
+  become: yes
+
+  roles:
+    - uptrace

@@ -1,0 +1,12 @@
+---
+gcs_project: "my-gcp-project"
+gcs_bucket: "my-bucket"
+gcs_credentials_file: "/etc/gcp/credentials.json"
+
+# local file operations
+gcs_local_file: "/tmp/test.txt"
+gcs_dest_file: "backup/test.txt"
+gcs_move_file: false   # true untuk move (copy lalu delete)
+
+# operation mode: copy | move | delete
+gcs_operation: "copy"

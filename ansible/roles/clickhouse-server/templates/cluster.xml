@@ -1,0 +1,54 @@
+#jinja2: trim_blocks:False
+<?xml version="1.0"?>
+<clickhouse>
+  <macros>
+    <cluster>{{ ch_cluster }}</cluster>
+    <shard>{{ ch_shard }}</shard>
+    <replica>{{ ch_replica }}</replica>
+  </macros>
+
+  <default_replica_path>/clickhouse/tables/{cluster}/{database}/{uuid}/{shard}</default_replica_path>
+  <default_replica_name>{replica}</default_replica_name>
+
+  <remote_servers>
+    <uptrace_all>
+      <secret>{{ secret }}</secret>
+
+  {% for ch_shard in ch_shards %}
+      <shard>
+        <internal_replication>true</internal_replication>
+    {% for host in groups.clickhouse_server %}
+      {% if hostvars[host].ch_shard == ch_shard %}
+        <replica>
+          <host>{{ host }}</host>
+          <port>9440</port>
+          <user>{{ ch_db_user }}</user>
+          <password>{{ ch_db_password }}</password>
+        </replica>
+      {% endif %}
+    {% endfor %}
+      </shard>
+  {% endfor %}
+    </uptrace_all>
+
+    <{{ ch_cluster }}>
+      <secret>{{ secret }}</secret>
+
+  {% for ch_shard in ch_shards %}
+      <shard>
+        <internal_replication>true</internal_replication>
+    {% for host in groups.clickhouse_server %}
+      {% if hostvars[host].ch_shard == ch_shard %}
+        <replica>
+          <host>{{ host }}</host>
+          <port>9440</port>
+          <user>{{ ch_db_user }}</user>
+          <password>{{ ch_db_password }}</password>
+        </replica>
+      {% endif %}
+    {% endfor %}
+      </shard>
+  {% endfor %}
+    </{{ ch_cluster }}>
+  </remote_servers>
+</clickhouse>

@@ -1,0 +1,16 @@
+---
+- name: Ensure Python dependencies are installed
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install jmespath via apt
+      ansible.builtin.apt:
+        name: python3-jmespath
+        state: present
+        update_cache: yes
+
+- name: Install Grafana Server
+  hosts: all
+  become: yes
+  roles:
+    - grafana.grafana.grafana

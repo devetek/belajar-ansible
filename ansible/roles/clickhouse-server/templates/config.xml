@@ -1,0 +1,53 @@
+#jinja2: trim_blocks:False
+<?xml version="1.0"?>
+<clickhouse>
+  <listen_host>::</listen_host>
+  <timezone>UTC</timezone>
+
+  <!-- https://github.com/ClickHouse/ClickHouse/issues/35552 -->
+  <openSSL>
+    <server>
+      <certificateFile remove="1" />
+      <privateKeyFile remove="1" />
+    </server>
+  </openSSL>
+
+  <default_database>{{ ch_db_name }}</default_database>
+  <max_table_size_to_drop>0</max_table_size_to_drop>
+  <max_partition_size_to_drop>0</max_partition_size_to_drop>
+
+  <asynchronous_metric_log remove="1"/>
+  <metric_log remove="1"/>
+  <query_thread_log remove="1" />
+  <query_log remove="1" />
+  <query_views_log remove="1" />
+  <part_log remove="1" />
+  <processors_profile_log remove="1" />
+  <session_log remove="1"/>
+  <text_log remove="1" />
+  <trace_log remove="1"/>
+  <crash_log remove="1"/>
+  <opentelemetry_span_log remove="1"/>
+  <zookeeper_log remove="1"/>
+
+  <logger>
+    <size>100M</size>
+    <count>10</count>
+  </logger>
+
+  <compression>
+    <case>
+      <method>zstd</method>
+      <level>1</level>
+    </case>
+  </compression>
+
+  <query_cache>
+    <!-- 1GB -->
+    <max_size_in_bytes>1073741824</max_size_in_bytes>
+    <max_entries>1000</max_entries>
+    <!-- 10MB -->
+    <max_entry_size_in_bytes>10485760</max_entry_size_in_bytes>
+    <max_entry_size_in_rows>1000000</max_entry_size_in_rows>
+  </query_cache>
+</clickhouse>
