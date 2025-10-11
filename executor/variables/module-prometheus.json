@@ -1,0 +1,22 @@
+{
+  "prometheus_version": "3.6.0",
+  "prometheus_agent_mode": false,
+  "prometheus_config_dir": "/etc/prometheus",
+  "prometheus_db_dir": "/var/lib/prometheus/tsdb",
+  "prometheus_storage_retention": "15d",
+  "prometheus_storage_retention_size": "1GB",
+  "prometheus_web_listen_address": "0.0.0.0:50001",
+  "prometheus_targets": {
+    "node": [
+      {
+        "metrics_path": "/metrics",
+        "targets": [
+          "localhost:9100"
+        ],
+        "labels": {
+          "env": "development"
+        }
+      }
+    ]
+  }
+}
