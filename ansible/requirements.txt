@@ -11,3 +11,4 @@ PyYAML==6.0.2
 resolvelib==1.0.1
 ssh-import-id==5.11
 wcwidth==0.2.13
+jmespath==1.0.1

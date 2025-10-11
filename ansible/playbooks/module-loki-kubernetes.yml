@@ -31,7 +31,7 @@
       block:
         - name: Download Helm binary archive
           ansible.builtin.get_url:
-            url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+            url: "https://get.helm.sh/helm-{{ helm_version }}-{{ ansible_system | lower }}-{{ ansible_architecture }}.tar.gz"
             dest: /tmp/helm.tar.gz
             mode: '0644'
 

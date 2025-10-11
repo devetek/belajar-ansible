@@ -1,7 +1,6 @@
-version: '3'
 services:
   ansible-executor:
-    image: willhallonline/ansible:ubuntu2204
+    image: prakasa1904/ansible:ubuntu-22.04
     working_dir: /ansible
     container_name: ansible-executor
     privileged: true

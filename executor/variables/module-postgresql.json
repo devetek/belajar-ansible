@@ -2,5 +2,24 @@
   "postgresql_listen_addresses": [
     "*"
   ],
-  "postgresql_version": 16
+  "postgresql_version": 16,
+  "postgresql_users": [
+    {
+      "name": "grafana",
+      "pass": "grafana",
+      "encrypted": "yes",
+      "state": "present"
+    }
+  ],
+  "postgresql_databases": [
+    {
+      "name": "grafana",
+      "owner": "grafana",
+      "hstore": "yes",
+      "uuid_ossp": "yes",
+      "citext": "yes",
+      "encoding": "UTF-8",
+      "state": "present"
+    }
+  ]
 }
