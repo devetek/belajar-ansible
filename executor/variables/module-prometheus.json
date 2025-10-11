@@ -1,15 +1,38 @@
 {
   "prometheus_version": "3.6.0",
   "prometheus_agent_mode": false,
+  "prometheus_metrics_path": "/metrics",
   "prometheus_config_dir": "/etc/prometheus",
   "prometheus_db_dir": "/var/lib/prometheus/tsdb",
   "prometheus_storage_retention": "15d",
   "prometheus_storage_retention_size": "1GB",
   "prometheus_web_listen_address": "0.0.0.0:50001",
+  "prometheus_scrape_configs": [
+    {
+      "job_name": "prometheus",
+      "metrics_path": "/metrics",
+      "static_configs": [
+        {
+          "targets": [
+            "localhost:50001"
+          ]
+        }
+      ]
+    },
+    {
+      "job_name": "node",
+      "file_sd_configs": [
+        {
+          "files": [
+            "/etc/prometheus/file_sd/node.yml"
+          ]
+        }
+      ]
+    }
+  ],
   "prometheus_targets": {
     "node": [
       {
-        "metrics_path": "/metrics",
         "targets": [
           "localhost:9100"
         ],
