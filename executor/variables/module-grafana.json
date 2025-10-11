@@ -20,8 +20,12 @@
       "admin_password": "dpanelterpusat"
     },
     "database": {
-        "type": "sqlite3",
-        "path": "/var/lib/grafana/grafana.db"
+        "type": "postgres",
+        "host": "localhost",
+        "port": "5432",
+        "database": "grafana",
+        "user": "grafana",
+        "password": "grafana"
     },
     "auth": {
       "enabled": true,
@@ -34,10 +38,10 @@
   },
   "grafana_datasources": [
     {
-      "name": "prometheus",
+      "name": "localhost",
       "type": "prometheus",
       "access": "proxy",
-      "url": "http://localhost:9090",
+      "url": "http://localhost:50001",
       "basicAuth": false
     },
     {
@@ -52,7 +56,7 @@
     {
       "dashboard_id": 1860,
       "revision_id": 27,
-      "datasource": "prometheus",
+      "datasource": "prometheus-localhost",
       "state": "present"
     }
   ],
