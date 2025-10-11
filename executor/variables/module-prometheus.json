@@ -28,6 +28,16 @@
           ]
         }
       ]
+    },
+    {
+      "job_name": "router",
+      "file_sd_configs": [
+        {
+          "files": [
+            "/etc/prometheus/file_sd/router.yml"
+          ]
+        }
+      ]
     }
   ],
   "prometheus_targets": {
@@ -35,6 +45,16 @@
       {
         "targets": [
           "localhost:9100"
+        ],
+        "labels": {
+          "env": "development"
+        }
+      }
+    ],
+    "router": [
+      {
+        "targets": [
+          "localhost:2019"
         ],
         "labels": {
           "env": "development"
