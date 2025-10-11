@@ -57,7 +57,7 @@
     }
   ],
   "grafana_ldap": {
-    "enabled": true,
+    "enabled": false,
     "group_mappings": [
       {
         "ldap_group": "cn=grafana,ou=groups,dc=example,dc=com",
