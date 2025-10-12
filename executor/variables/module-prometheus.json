@@ -38,6 +38,17 @@
           ]
         }
       ]
+    },
+    {
+      "job_name": "router_https",
+      "scheme": "https",
+      "file_sd_configs": [
+        {
+          "files": [
+            "/etc/prometheus/file_sd/router_https.yml"
+          ]
+        }
+      ]
     }
   ],
   "prometheus_targets": {
@@ -45,6 +56,16 @@
       {
         "targets": [
           "localhost:9100"
+        ],
+        "labels": {
+          "env": "development"
+        }
+      }
+    ],
+    "router_https": [
+      {
+        "targets": [
+          "caddy-metrics.beta.devetek.app"
         ],
         "labels": {
           "env": "development"
