@@ -30,7 +30,7 @@
     "mariadb_users": [
         {
             "name": "wordpress",
-            "host": "localhost",
+            "host": "127.0.0.1",
             "password": "wordpress",
             "priv": "wordpress.*:ALL",
             "resource_limits": {

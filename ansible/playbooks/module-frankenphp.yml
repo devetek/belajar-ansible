@@ -1,0 +1,27 @@
+---
+- name: Install FrankenPHP binary
+  hosts: all
+  become: true
+
+
+  tasks:
+    - name: Download FrankenPHP binary
+      ansible.builtin.get_url:
+        url: "https://frankenphp.dev/install.sh"
+        dest: "/tmp/frankenphp-install.sh"
+        mode: '0755'
+      
+    - name: Install FrankenPHP binary
+      ansible.builtin.command:
+        cmd: "/tmp/frankenphp-install.sh"
+      args:
+        chdir: "/tmp"
+        
+    - name: Clean up FrankenPHP installation script
+      ansible.builtin.file:
+        path: "/tmp/frankenphp-install.sh"
+        state: absent
+
+    - name: Move FrankenPHP binary to /usr/local/bin/frankenphp
+      ansible.builtin.command:
+        cmd: "mv /tmp/frankenphp /usr/local/bin/frankenphp"

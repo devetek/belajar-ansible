@@ -65,7 +65,9 @@
     "router_https": [
       {
         "targets": [
-          "caddy-metrics.beta.devetek.app"
+          "caddy-metrics.beta.devetek.app",
+          "bbo-kube.devetek.app",
+          "bboevents.com"
         ],
         "labels": {
           "env": "development"
