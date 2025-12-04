@@ -8,7 +8,7 @@ import uuid
 from ansible.module_utils.urls import open_url
 
 
-available_status = ["pending", "running", "success", "failed", "canceled", "skipped", "unknown"]
+available_status = ["pending", "progress", "success", "failed", "canceled", "skipped", "unknown"]
 
 class InitDnocs:
     def __init__(self):
@@ -50,20 +50,29 @@ class InitDnocs:
         )).encode('utf-8')
 
         try:
-            response = open_url(self.url, data=data)
+            response = open_url(
+                self.url,
+                data=data,
+                headers={
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer %s' % self.token
+                }, 
+                method='POST',
+                timeout=10
+            )
             return response.read()
         except Exception as e:
             print("Could not submit message to dPanel: %s" % str(e))
     
-    # build dPanel payload message
+    # build dPanel payload
     def __build_message(self, status, task, host, file, stdout="", stderr=""):
         return {
             "status": status,
             "task": task,
             "host": host,
             "file": file,
-            "token": self.token,
-            "iac_type": "ansible",
             "stdout": stdout,
-            "stderr": stderr
+            "stderr": stderr,
+            "iac_type": "ansible",
         }
