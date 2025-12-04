@@ -1,6 +1,5 @@
 import json
 import os
-import uuid
 
 from ansible.module_utils.urls import open_url
 
@@ -19,10 +18,6 @@ class InitSlack:
 
         if not HAS_PRETTYTABLE:
             self.disabled = True
-            exit(1)
-            # self._display.warning('The `prettytable` python module is not '
-            #                       'installed. Disabling the Slack callback '
-            #                       'plugin.')
 
         self.webhook_url = os.getenv("SLACK_WEBHOOK_URL")
         self.channel = os.getenv("SLACK_CHANNEL", "#dpanel")
@@ -30,17 +25,12 @@ class InitSlack:
 
         if self.webhook_url is None:
             self.disabled = True
-            # self._display.warning('Slack Webhook URL was not provided. The '
-            #                       'Slack Webhook URL can be provided using '
-            #                       'the `SLACK_WEBHOOK_URL` environment '
-            #                       'variable.')
-
-        # This is a 6 character identifier provided with each message
-        # This makes it easier to correlate messages when there are more
-        # than 1 simultaneous playbooks running
-        self.guid = uuid.uuid4().hex[:6]
 
     def build_msg(self, attachments):
+        # check if type is not dict
+        if not isinstance(attachments, dict):
+            return {}
+
         msg = {
             "blocks": [
                 {
@@ -88,6 +78,9 @@ class InitSlack:
         return msg
 
     def send_msg(self, attachments):
+        if self.disabled:
+            return
+
         data = json.dumps(self.build_msg(attachments))
         try:
             response = open_url(self.webhook_url, data=data)

@@ -1,0 +1,20 @@
+{
+  "users_groups": [
+    {
+      "name": "prakasa1904"
+    }
+  ],
+  "users": [
+    {
+      "name": "prakasa1904",
+      "group": "prakasa1904",
+      "password": "prakasa1904",
+      "comment": "User for dPanel cloud.terpusat.com",
+      "shell": "/usr/bin/bash",
+      "groups": [
+        "www-data",
+        "users"
+      ]
+    }
+  ]
+}

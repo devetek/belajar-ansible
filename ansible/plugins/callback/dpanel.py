@@ -21,23 +21,15 @@ DOCUMENTATION = '''
 
 
 import os
-import json
-import uuid
+import sys
+import inspect
 from ansible import constants as C
 from ansible import context
-from ansible.module_utils.urls import open_url
-from ansible.playbook.task_include import TaskInclude
 from ansible.plugins.callback import CallbackBase
 from ansible.utils.color import colorize, hostcolor
 from ansible.utils.fqcn import add_internal_fqcns
 from importlib.machinery import SourceFileLoader
 from pathlib import Path
-
-try:
-    import prettytable
-    HAS_PRETTYTABLE = True
-except ImportError:
-    HAS_PRETTYTABLE = False
 
 
 class CallbackModule(CallbackBase):
@@ -62,33 +54,61 @@ class CallbackModule(CallbackBase):
         self.__import_plugins_utils()
 
     def v2_runner_on_failed(self, result, ignore_errors=False):
-        print("START")
-        print(result._result)
-        print("END")
+        host_name = result._host.get_name()
+        # send status to dPanel, on task failed
+        self.channels["dnocs"].publish({
+            "success": False,
+            "result": result,
+            "error": f"Task failed on host: {host_name}",
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_runner_on_ok(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # send status to dPanel, on task success
+        host_name = result._host.get_name()
+        # send status to dPanel, on task failed
+        self.channels["dnocs"].publish({
+            "success": True,
+            "result": result,
+            "error": None,
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_runner_on_skipped(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        '''
+        Do nothing on skipped tasks, to prevent output cluttering.
+
+        Copyright (c) 2025, Prakasa <prakasa@devetek.com>
+        MIT License (see LICENSE file for details)
+        '''
+        pass
 
     def v2_runner_on_unreachable(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # get host name
+        host_name = result._host.get_name()
+        # send status to dPanel, host not reachable
+        self.channels["dnocs"].publish({
+            "success": False,
+            "result": result,
+            "error": f"Host unreachable: {host_name}",
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_playbook_on_no_hosts_matched(self):
-        self._display.display("skipping: no hosts matched", color=C.COLOR_SKIP)
+        # send status to dPanel, no hosts matched
+        self.channels["dnocs"].publish({
+            "success": False,
+            "result": None,
+            "error": "No hosts matched",
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_playbook_on_no_hosts_remaining(self):
-        self._display.banner("NO MORE HOSTS LEFT")
+        pass
 
     def v2_playbook_on_task_start(self, task, is_conditional):
-        self._task_start(task, prefix='TASK')
+        # do nothing on task start, to prevent output cluttering.
+        pass
 
     def _task_start(self, task, prefix=None):
         # Cache output prefix for task if provided
@@ -143,65 +163,55 @@ class CallbackModule(CallbackBase):
         self._last_task_banner = task._uuid
 
     def v2_playbook_on_cleanup_task_start(self, task):
-        self._task_start(task, prefix='CLEANUP TASK')
+        pass
 
     def v2_playbook_on_handler_task_start(self, task):
-        self._task_start(task, prefix='RUNNING HANDLER')
+        pass
 
     def v2_runner_on_start(self, host, task):
-        if self.get_option('show_per_host_start'):
-            self._display.display(" [started %s on %s]" % (task, host), color=C.COLOR_OK)
+        # do nothing on runner start, to prevent output cluttering.
+        pass
 
     def v2_playbook_on_play_start(self, play):
         # get all extra variables
-        variable_manager = play.get_variable_manager()
-        extra_vars = variable_manager.extra_vars
-        
-        # print("START SEND SLACK =====================")
-        self.channels["slack"].send_msg(extra_vars)
-        # print("END SEND SLACK =====================")
-        
-        
-        name = play.get_name().strip()
-        if play.check_mode and self.get_option('check_mode_markers'):
-            checkmsg = " [CHECK MODE]"
-        else:
-            checkmsg = ""
-        if not name:
-            msg = u"PLAY%s" % checkmsg
-        else:
-            msg = u"PLAY [%s]%s" % (name, checkmsg)
-
-        self._play = play
-
-        self._display.banner(msg)
+        # variable_manager = play.get_variable_manager()
+        # extra_vars = variable_manager.extra_vars
+        # print(extra_vars)
+        pass
 
     def v2_on_file_diff(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        pass
 
     def v2_runner_item_on_ok(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # send status to dPanel, on task success
+        self.channels["dnocs"].publish({
+            "success": True,
+            "result": result,
+            "error": None,
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_runner_item_on_failed(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # send status to dPanel, on task failed
+        self.channels["dnocs"].publish({
+            "success": False,
+            "result": result,
+            "error": "Task item failed",
+            "callback_function": sys._getframe(0).f_code.co_name
+        })
 
     def v2_runner_item_on_skipped(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        '''
+        Do nothing on skipped tasks, to prevent output cluttering.
+
+        Copyright (c) 2025, Prakasa <prakasa@devetek.com>
+        MIT License (see LICENSE file for details)
+        '''
+        pass
 
     def v2_playbook_on_include(self, included_file):
-        msg = 'included: %s for %s' % (included_file._filename, ", ".join([h.name for h in included_file._hosts]))
-        label = self._get_item_label(included_file._vars)
-        if label:
-            msg += " => (item=%s)" % label
-        self._display.display(msg, color=C.COLOR_SKIP)
+        # do nothing on include to prevent output cluttering.
+        pass
 
     def v2_playbook_on_stats(self, stats):
         self._display.banner("PLAY RECAP")
@@ -260,57 +270,52 @@ class CallbackModule(CallbackBase):
             self._display.banner("DRY RUN")
 
     def v2_playbook_on_start(self, playbook):
-        print("v2_playbook_on_start")
-        print(playbook._loader.__dict__)
-        print("v2_playbook_on_start")
-        
-        # self.utils["slack"].send_msg("")
-        # print("START SEND SLACK =====================")
-        # self.channels["slack"].send_msg("")
-        # print("END SEND SLACK =====================")
-                
-        if self._display.verbosity > 1:
-            from os.path import basename
-            self._display.banner("PLAYBOOK: %s" % basename(playbook._file_name))
-
-        # show CLI arguments
-        if self._display.verbosity > 3:
-            if context.CLIARGS.get('args'):
-                self._display.display('Positional arguments: %s' % ' '.join(context.CLIARGS['args']),
-                                      color=C.COLOR_VERBOSE, screen_only=True)
-
-            for argument in (a for a in context.CLIARGS if a != 'args'):
-                val = context.CLIARGS[argument]
-                if val:
-                    self._display.display('%s: %s' % (argument, val), color=C.COLOR_VERBOSE, screen_only=True)
-
-        if context.CLIARGS['check'] and self.get_option('check_mode_markers'):
-            self._display.banner("DRY RUN")
+        # do nothing on playbook start, to prevent output cluttering.
+        pass
 
     def v2_runner_retry(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # do nothing on retries, to prevent output cluttering.
+        pass
 
     def v2_runner_on_async_poll(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # currently do nothing on async polls, to prevent output cluttering.
+        # dPanel not support polling status yet
+        '''
+        Run on async poll event triggered when task contains async directive. For example:
+        - name: Long running task
+          command: /bin/sleep 45
+          async: 1000
+          poll: 0
+          register: long_running_task
+        
+        - name: Poll for async result
+          async_status: jid={{ long_running_task.ansible_job_id }}
+          register: job_result
+          until: job_result.finished == 1
+          retries: 30
+          delay: 10
+        '''
+        pass
 
     def v2_runner_on_async_ok(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # polling success, do nothing to prevent output cluttering.
+        pass
 
     def v2_runner_on_async_failed(self, result):
-        print("START")
-        print(result._result)
-        print("END")
+        # polling failed, do nothing to prevent output cluttering.
+        pass
 
     def v2_playbook_on_notify(self, handler, host):
-        if self._display.verbosity > 1:
-            self._display.display("NOTIFIED HANDLER %s for %s" % (handler.get_name(), host), color=C.COLOR_VERBOSE, screen_only=True)
-
+        # if self._display.verbosity > 1:
+        #     self._display.display("NOTIFIED HANDLER %s for %s" % (handler.get_name(), host), color=C.COLOR_VERBOSE, screen_only=True)
+        # Do nothing on notify to prevent output cluttering.
+        pass
+    
+    '''
+    Import dynamic plugins from environment variable ANSIBLE_DPANEL_PLUGINS. To help extend functionality
+    for example to send notification to slack, telegram, etc.
+    Copyright (c) 2025, Prakasa <prakasa@devetek.com>
+    '''
     def __import_plugins_utils(self):
         plugin_dir = os.getenv('ANSIBLE_DPANEL_PLUGINS')
         abs_path = Path(plugin_dir).resolve()
