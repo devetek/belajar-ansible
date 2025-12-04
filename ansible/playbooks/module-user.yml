@@ -1,0 +1,9 @@
+---
+- name: User management
+  hosts: all
+  become: true
+
+  roles:
+    - role: robertdebock.users
+      tags:
+        - user

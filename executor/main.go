@@ -32,9 +32,9 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "ansible-executor",
-	Short: "ansible-executor",
-	Long: `ansible-executor is an example which show how to use go-ansible library from cobra cli
+	Use:   "dpanel-executor",
+	Short: "dpanel-executor",
+	Long: `dpanel-executor is a command line tool to run dPanel IaC from any environment.
 	
  Run the example:
 go run main.go -L -i /ansible/inventory/{task-id}.json -p site.yml -e @/ansible/variables/{task-id}.json
@@ -45,19 +45,19 @@ go run main.go -i /ansible/inventory/{task-id}.json -p site.yml -e @/ansible/var
 
 func commandHandler(cmd *cobra.Command, args []string) error {
 	if len(playbookFiles) < 1 {
-		return errors.New("(ansible-handler)", "To run ansible-playbook playbook file path must be specified")
+		return errors.New("(dpanel-iac-ansible)", "To run ansible-playbook playbook file path must be specified")
 	}
 
 	if len(inventory) < 1 {
-		return errors.New("(ansible-handler)", "To run ansible-playbook an inventory must be specified")
+		return errors.New("(dpanel-iac-ansible)", "To run ansible-playbook an inventory must be specified")
 	}
 
 	if user == "" {
-		return errors.New("(ansible-handler)", "To run ansible-playbook user must be specified")
+		return errors.New("(dpanel-iac-ansible)", "To run ansible-playbook user must be specified")
 	}
 
 	if key == "" {
-		return errors.New("(ansible-handler)", "To run ansible-playbook key must be specified")
+		return errors.New("(dpanel-iac-ansible)", "To run ansible-playbook key must be specified")
 	}
 
 	ansiblePlaybookOptions := &playbook.AnsiblePlaybookOptions{
@@ -97,16 +97,16 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 			execute.WithCmdRunDir("/ansible"),
 			execute.WithErrorEnrich(playbook.NewAnsiblePlaybookErrorEnrich()),
 			execute.WithEnvVars(map[string]string{
-				"ANSIBLE_HOST_KEY_CHECKING":               "false",
-				"ANSIBLE_FORCE_COLOR":                     "true",
-				"ANSIBLE_ROLES_PATH":                      "/ansible/roles",
-				"ANSIBLE_DPANEL_PLUGINS":                  "/ansible/plugins/utils",
-				"ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
-				"ANSIBLE_STDOUT_CALLBACK":                 "dpanel",
-				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
+				"ANSIBLE_HOST_KEY_CHECKING":               os.Getenv("ANSIBLE_HOST_KEY_CHECKING"),
+				"ANSIBLE_FORCE_COLOR":                     os.Getenv("ANSIBLE_FORCE_COLOR"),
+				"ANSIBLE_ROLES_PATH":                      os.Getenv("ANSIBLE_ROLES_PATH"),
+				"ANSIBLE_DPANEL_PLUGINS":                  os.Getenv("ANSIBLE_DPANEL_PLUGINS"),
+				"ANSIBLE_CALLBACK_PLUGINS":                os.Getenv("ANSIBLE_CALLBACK_PLUGINS"),
+				"ANSIBLE_STDOUT_CALLBACK":                 os.Getenv("ANSIBLE_STDOUT_CALLBACK"),
+				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": os.Getenv("ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP"),
 			}),
 			execute.WithTransformers(
-				transformer.Prepend("(ansible-handler)"),
+				transformer.Prepend("(dpanel-iac-ansible)"),
 			),
 		),
 		configuration.WithAnsibleForceColor(),
@@ -114,7 +114,7 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 
 	err := exec.Execute(context.TODO())
 	if err != nil {
-		panic(err)
+		return nil
 	}
 
 	return nil
