@@ -55,7 +55,7 @@ kolla_base_distro: "ubuntu"
 #openstack_tag_suffix: ""
 
 # Location of configuration overrides
-node_custom_config: "ansible/inventory/group_vars/kolla"
+# node_custom_config: "ansible/inventory/group_vars/kolla"
 
 # This should be a VIP, an unused IP on your network that will float between
 # the hosts running keepalived for high-availability. If you want to run an
@@ -315,7 +315,7 @@ kolla_enable_tls_external: true
 
 # Enable core OpenStack services. This includes:
 # glance, keystone, neutron, nova, heat, and horizon.
-enable_openstack_core: true
+# enable_openstack_core: true
 
 # These roles are required for Kolla to be operation, however a savvy deployer
 # could disable some of these required roles and run their own services.
