@@ -1,3 +1,7 @@
+## Description
+
+For testing purpose, when you need to create network interface to configure openstack. This can help you when only 1 NC in your server. After test pass, you need to modify your netplan config with real configuration. Open folder netplan.
+
 ## How To
 
 1. Copy configuration to:
