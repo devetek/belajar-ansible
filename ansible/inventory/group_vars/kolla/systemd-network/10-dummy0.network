@@ -1,0 +1,6 @@
+[Match]
+Name=dummy0
+
+[Network]
+# No IP configuration needed.
+# OpenStack will manage bridging this internally.
