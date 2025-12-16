@@ -158,7 +158,7 @@ network_interface: "enp2s0"
 # though an IP address can exist on this interface, it will be unusable in most
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
-neutron_external_interface: "eth1"
+neutron_external_interface: "dummy0"
 
 # Valid options are [ openvswitch, ovn ]
 #neutron_plugin_agent: "openvswitch"
@@ -315,7 +315,7 @@ kolla_enable_tls_external: true
 
 # Enable core OpenStack services. This includes:
 # glance, keystone, neutron, nova, heat, and horizon.
-# enable_openstack_core: true
+enable_openstack_core: false
 
 # These roles are required for Kolla to be operation, however a savvy deployer
 # could disable some of these required roles and run their own services.
@@ -388,7 +388,7 @@ enable_cinder_backend_lvm: true
 #enable_ironic_pxe_filter: false
 #enable_iscsid: "{{ enable_cinder | bool and enable_cinder_backend_iscsi | bool }}"
 #enable_kuryr: false
-enable_magnum: true
+enable_magnum: false
 #enable_manila: false
 #enable_manila_backend_generic: false
 #enable_manila_backend_hnas: false
@@ -863,3 +863,15 @@ enable_magnum: true
 # If `etcd_remove_deleted_members` is enabled, Kolla Ansible will automatically
 # remove etcd members from the cluster that are no longer in the inventory.
 #etcd_remove_deleted_members: false
+
+############################
+# API workers (For low memory systems)
+############################
+nova_api_workers: 1
+neutron_api_workers: 1
+keystone_admin_workers: 1
+
+############################
+# RabbitMQ memory limit (For low memory systems)
+############################
+rabbitmq_memory_high_watermark: 0.3
