@@ -1,0 +1,27 @@
+---
+- name: Ensure database exists
+  community.mysql.mysql_db:
+    login_user: "{{ mysql_user }}"
+    login_password: "{{ mysql_password }}"
+    login_host: "{{ mysql_host }}"
+    login_port: "{{ mysql_port }}"
+    name: "{{ database }}"
+    state: present
+
+- name: Restore database from backup file
+  shell: |
+    if [ -f "{{ restore_file }}" ]; then
+      echo "Restoring {{ restore_file }} into {{ database }}"
+      gunzip < "{{ restore_file }}" | mysql -h {{ mysql_host }} -P {{ mysql_port }} -u {{ mysql_user }} -p'{{ mysql_password }}' {{ database }}
+    else
+      echo "Restore file not found!"
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+  register: restore_result
+  ignore_errors: no
+
+- name: Show restore result
+  debug:
+    var: restore_result

@@ -81,3 +81,8 @@ collections:
   - name: community.mysql
   - name: community.postgresql
   - name: community.mongodb
+  - name: grafana.grafana
+    version: 6.0.3
+  - name: prometheus.prometheus
+  - name: community.mysql
+  - name: google.cloud

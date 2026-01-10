@@ -1,0 +1,14 @@
+---
+- name: Install Helm and Import Kube Credentials
+  hosts: all
+  become: yes
+  gather_facts: true
+  tasks:
+    - name: Add Grafana Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add grafana https://grafana.github.io/helm-charts
+      register: add_repo_result
+      changed_when: "'already exists' not in add_repo_result.stderr"
+    - name: Update Helm repos
+      ansible.builtin.command:
+        cmd: helm repo update

@@ -1,0 +1,6 @@
+---
+- name: Backup database Postgresql
+  hosts: all
+  become: true
+  roles:
+    - devetek.backup-db-postgresql

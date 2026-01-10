@@ -1,0 +1,5 @@
+- hosts: all
+  roles:
+    - role: devetek.gcp-sdk
+      vars:
+        gcs_credentials_file: "~/credential/gcp-key.json"

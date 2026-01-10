@@ -1,0 +1,6 @@
+- hosts: clickhouse_server
+  become: yes
+
+  roles:
+    - { role: clickhouse-install }
+    - { role: clickhouse-server }

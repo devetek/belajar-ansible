@@ -1,0 +1,8 @@
+---
+mysql_host: "localhost"
+mysql_port: 3306
+mysql_user: "backup_user"
+mysql_password: "strong_password"
+databases: [company_db]    # contoh: ['db1', 'db2']
+backup_dir: "/root/backup"
+backup_filename: "{{ item }}-custom-{{ ansible_date_time.iso8601 }}"

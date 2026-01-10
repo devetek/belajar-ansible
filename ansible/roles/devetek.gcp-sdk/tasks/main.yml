@@ -1,0 +1,54 @@
+---
+- name: Add Google Cloud SDK apt key
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+  become: yes
+
+- name: Add Google Cloud SDK apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://packages.cloud.google.com/apt cloud-sdk main"
+    filename: "google-cloud-sdk"
+    state: present
+  become: yes
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: yes
+
+- name: Install system dependencies including google-cloud-sdk
+  ansible.builtin.apt:
+    name: "{{ required_packages }}"
+    state: present
+  become: yes
+
+- name: Install required python packages
+  ansible.builtin.pip:
+    name: "{{ pip_packages }}"
+    state: present
+
+- name: Ensure credentials directory exists
+  ansible.builtin.file:
+    path: "/etc/gcp"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: Copy GCP service account key
+  ansible.builtin.copy:
+    src: "{{ gcs_credentials_file }}"
+    dest: "{{ gcs_credentials_dest }}"
+    owner: root
+    group: root
+    mode: '0600'
+  become: yes
+
+- name: Set GOOGLE_APPLICATION_CREDENTIALS in /etc/environment
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    line: "GOOGLE_APPLICATION_CREDENTIALS={{ gcs_credentials_dest }}"
+    create: yes
+  become: yes

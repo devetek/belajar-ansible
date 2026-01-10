@@ -1,0 +1,52 @@
+---
+- name: Ensure .kube directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0700'
+
+- name: Copy kubeconfig if provided
+  ansible.builtin.copy:
+    src: "{{ kubeconfig_src }}"
+    dest: "{{ kubeconfig_dest }}"
+    mode: '0600'
+    force: "{{ kubeconfig_force }}"
+  when: kubeconfig_src is defined and kubeconfig_src != ""
+
+- name: Generate kubeconfig from token if API server + token provided
+  ansible.builtin.copy:
+    dest: "{{ kubeconfig_dest }}"
+    mode: '0600'
+    content: |
+      apiVersion: v1
+      kind: Config
+      clusters:
+      - name: kubernetes
+        cluster:
+          server: "{{ k8s_api_server }}"
+          insecure-skip-tls-verify: true
+      users:
+      - name: sa-user
+        user:
+          token: "{{ k8s_token }}"
+      contexts:
+      - name: sa-context
+        context:
+          cluster: kubernetes
+          user: sa-user
+          namespace: "{{ k8s_namespace }}"
+      current-context: sa-context
+  when: k8s_api_server != "" and k8s_token != ""
+
+- name: Debug current kubeconfig in use
+  ansible.builtin.shell: |
+    kubectl config current-context
+  environment:
+    KUBECONFIG: "{{ kubeconfig_dest }}"
+  register: current_ctx
+  changed_when: false
+  ignore_errors: true
+
+- name: Show active context
+  ansible.builtin.debug:
+    msg: "Active Kubernetes context: {{ current_ctx.stdout | default('unknown') }}"
