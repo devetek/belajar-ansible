@@ -1,4 +1,4 @@
-ansible-core==2.16.0
+ansible-core==2.18.12
 cffi==1.17.1
 cryptography==45.0.4
 distro==1.7.0
@@ -11,3 +11,8 @@ PyYAML==6.0.2
 resolvelib==1.0.1
 ssh-import-id==5.11
 wcwidth==0.2.13
+# Install the latest Kolla-Ansible from the master branch (for testing/development purposes)
+# Or you can install from official releases like:
+# kolla-ansible==21.0.0 -> https://pypi.org/project/kolla-ansible/
+kolla-ansible @ git+https://opendev.org/openstack/kolla-ansible@master
+python-openstackclient==8.2.0
