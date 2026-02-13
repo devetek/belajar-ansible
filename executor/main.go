@@ -97,12 +97,12 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 			execute.WithCmdRunDir("/ansible"),
 			execute.WithErrorEnrich(playbook.NewAnsiblePlaybookErrorEnrich()),
 			execute.WithEnvVars(map[string]string{
-				"ANSIBLE_HOST_KEY_CHECKING":               "false",
-				"ANSIBLE_FORCE_COLOR":                     "true",
-				"ANSIBLE_ROLES_PATH":                      "/ansible/roles",
-				"ANSIBLE_DPANEL_PLUGINS":                  "/ansible/plugins/utils",
-				"ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
-				"ANSIBLE_STDOUT_CALLBACK":                 "dpanel",
+				"ANSIBLE_HOST_KEY_CHECKING": "false",
+				"ANSIBLE_FORCE_COLOR":       "true",
+				"ANSIBLE_ROLES_PATH":        "/ansible/roles",
+				// "ANSIBLE_DPANEL_PLUGINS":                  "/ansible/plugins/utils",
+				// "ANSIBLE_CALLBACK_PLUGINS":                "/ansible/plugins/callback",
+				// "ANSIBLE_STDOUT_CALLBACK":                 "dpanel",
 				"ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP": "true",
 			}),
 			execute.WithTransformers(

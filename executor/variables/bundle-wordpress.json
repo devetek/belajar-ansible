@@ -30,7 +30,7 @@
     "mariadb_users": [
         {
             "name": "wordpress",
-            "host": "localhost",
+            "host": "127.0.0.1",
             "password": "wordpress",
             "priv": "wordpress.*:ALL",
             "resource_limits": {
@@ -166,8 +166,8 @@
         }
     ],
     "router_action": "install",
-    "router_filename": "http-localhost-50000",
-    "router_domain": "http://localhost:50000",
+    "router_filename": "http-localhost-50002",
+    "router_domain": "http://localhost:50002",
     "router_content": "import php-wordpress-next {{ router_domain }} unix//home/prakasa1904/run/php-fpm/{{ build_appname }}.sock {{ wordpress_directory }}",
     "logrotate_frequency": "daily",
     "logrotate_keep": 3,

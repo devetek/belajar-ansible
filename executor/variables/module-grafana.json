@@ -1,0 +1,68 @@
+{
+  "grafana_agent": {
+    "install": false
+  },
+  "grafana_ini": {
+    "paths": {
+      "data": "/var/lib/grafana",
+      "logs": "/var/log/grafana",
+      "plugins": "/var/lib/grafana/plugins",
+      "provisioning": "/etc/grafana/provisioning"
+    },
+    "server": {
+      "http_addr": "0.0.0.0",
+      "http_port": 50000,
+      "domain": "localhost",
+      "root_url": "%(protocol)s://%(domain)s:%(http_port)s/"
+    },
+    "security": {
+      "admin_user": "admin",
+      "admin_password": "dpanelterpusat"
+    },
+    "database": {
+      "type": "postgres",
+      "host": "localhost",
+      "port": "5432",
+      "database": "grafana",
+      "user": "grafana",
+      "password": "grafana"
+    },
+    "auth": {
+      "enabled": true,
+      "login_hint": "Login with username or email",
+      "signout_redirect_url": "",
+      "ldap": {
+        "enabled": false
+      }
+    }
+  },
+  "grafana_datasources": [],
+  "grafana_dashboards": [],
+  "grafana_ldap": {
+    "enabled": false,
+    "group_mappings": [
+      {
+        "ldap_group": "cn=grafana,ou=groups,dc=example,dc=com",
+        "grafana_role": "Admin"
+      }
+    ],
+    "servers": [
+      {
+        "host": "ldap.example.com",
+        "port": 389,
+        "use_ssl": false,
+        "bind_dn": "cn=admin,dc=example,dc=com",
+        "bind_password": "admin",
+        "search_filter": "(&(objectClass=user)(|(uid=%s)(mail=%s)))",
+        "search_base_dns": [
+          "ou=users,dc=example,dc=com"
+        ],
+        "group_search_filter": "(&(objectClass=group)(member=%s))",
+        "group_search_base_dns": [
+          "ou=groups,dc=example,dc=com"
+        ],
+        "require_group": ""
+      }
+    ]
+  }
+}
