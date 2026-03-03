@@ -13,6 +13,6 @@ ssh-import-id==5.11
 wcwidth==0.2.13
 # Install the latest Kolla-Ansible from the master branch (for testing/development purposes)
 # Or you can install from official releases like:
-# kolla-ansible==21.0.0 -> https://pypi.org/project/kolla-ansible/
-kolla-ansible @ git+https://opendev.org/openstack/kolla-ansible@master
+kolla-ansible==21.0.0 
+# kolla-ansible @ git+https://opendev.org/openstack/kolla-ansible@master
 python-openstackclient==8.2.0
