@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Not working seamlessly on RHEL, requires additional roles:
+# - geerlingguy.repo-epel
+# - geerlingguy.repo-remi
+# It will take after get a generic playbook working with both OS family
+
 source ./includes/constants.sh
 
 go run *.go \
@@ -8,4 +13,5 @@ go run *.go \
     -u root \
     -k /executor/id_rsa_fake \
     -t all \
+    -v \
     -e @/executor/variables/module-php.json

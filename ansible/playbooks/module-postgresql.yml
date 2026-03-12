@@ -4,6 +4,6 @@
   become: true
 
   roles:
-    - role: devetek.postgresql
+    - role: geerlingguy.postgresql
       tags:
         - postgresql

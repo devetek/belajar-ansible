@@ -71,43 +71,43 @@ enter-ansible-executor: ## Enter to ansible-executor
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10000
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50000
 
 ansible-inventory-ubuntu-22: ## Enter to ansible-inventory-ubuntu-22
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10001
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50001
 
 ansible-inventory-ubuntu-24: ## Enter to ansible-inventory-ubuntu-24
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10002
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50002
 
 ansible-inventory-almalinux-9: ## Enter to ansible-inventory-almalinux-9
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10003
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50003
 
 ansible-inventory-rockylinux-9: ## Enter to ansible-inventory-rockylinux-9
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10004
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50004
 
 ansible-inventory-fedora-43: ## Enter to ansible-inventory-fedora-43
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10005
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50005
 
 ansible-inventory-centos-stream-10: ## Enter to ansible-inventory-centos-stream-10
 	@echo "This command will remove your ~/.ssh/known_hosts, carefully!"
 	@rm ~/.ssh/known_hosts || echo "ignore!"
 	@chmod 0600 ssh-key/id_rsa_fake
-	@ssh -i ssh-key/id_rsa_fake root@localhost -p 10006
+	@ssh -i ssh-key/id_rsa_fake root@localhost -p 50006
 
 log: .bin-validator ## Show containers log
 	@docker-compose -f docker-compose.yml logs -f

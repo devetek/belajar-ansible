@@ -1,7 +1,9 @@
 FROM almalinux:9
 
 RUN dnf update -y && \
-    dnf install openssh-server -y
+    dnf install openssh-server epel-release which sudo wget rsyslog net-tools procps-ng python3-pip -y
+
+RUN pip3 install --user virtualenv
 
 RUN systemctl enable sshd
 

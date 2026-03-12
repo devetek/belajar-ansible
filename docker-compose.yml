@@ -1,12 +1,12 @@
 version: '3'
 services:
   ansible-executor:
-    image: prakasa1904/ansible:ubuntu-22.04
+    image: prakasa1904/ansible:ubuntu-24.04
     working_dir: /ansible
     container_name: ansible-executor
     privileged: true
     ports:
-      - 10000:22
+      - 50000:22
     volumes:
       # SSH Configuration && SSH Key
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
@@ -27,7 +27,7 @@ services:
     container_name: ansible-inventory-1
     privileged: true
     ports:
-      - 10001:22
+      - 50001:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
@@ -38,7 +38,7 @@ services:
     container_name: ansible-inventory-2
     privileged: true
     ports:
-      - 10002:22
+      - 50002:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
@@ -50,7 +50,7 @@ services:
     container_name: ansible-inventory-3
     privileged: true
     ports:
-      - 10003:22
+      - 50003:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
@@ -62,7 +62,7 @@ services:
     container_name: ansible-inventory-4
     privileged: true
     ports:
-      - 10004:22
+      - 50004:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
@@ -74,7 +74,7 @@ services:
     container_name: ansible-inventory-5
     privileged: true
     ports:
-      - 10005:22
+      - 50005:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
@@ -86,7 +86,7 @@ services:
     container_name: ansible-inventory-6
     privileged: true
     ports:
-      - 10006:22
+      - 50006:22
     volumes:
       - ${PWD}/ssh-key/sshd_config:/etc/ssh/sshd_config
       - ${PWD}/ssh-key/authorized_keys:/root/.ssh/authorized_keys
