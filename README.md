@@ -69,9 +69,9 @@ Untuk menggunakan repository ini jalankan perintah `make run`.
 Perintah tersebut akan melakukan beberapa hal:
 
 - Menjalankan docker compose dari file `docker-compose.yml`
-- Menjalankan 2 buah container, satu container sebagai ansible executor dan container kedua sebagai ansible inventory
+- Menjalankan container ansible executor, dan beberapa containers sebagai ansible sebagai ansible inventory
 
-Buka 2 terminal lain, untuk masuk ke container `ansible-executor` dengan perintah `make enter-ansible-executor`. Dan masuk ke container `ansible-inventory` dengan perintah `make enter-ansible-inventory`.
+Buka terminal lain, untuk masuk ke container `ansible-executor` dengan perintah `make enter-ansible-executor`.
 
 ![make run](assets/terminal-2-and-3.png)
 
@@ -83,13 +83,9 @@ Di dalam container `ansible-executor` masuk ke folder `/ansible` dengan perintah
 
 Kemudian pindah ke folder `/executor` dengan perintah `cd /executor`. Kemudian jalankan perintah `go mod tidy` untuk menginstall golang dependencies. Di dalam folder ini terdapat beberapa contoh untuk menjalankan ansible playbook yang tersedia di dPanel:
 
-- wordpress: `./exec-bundle-wordpress.sh`. Setelah selesai, site laravel dapat diakses melalui `http://localhost:50000`.
-
-![wordpress-site](assets/wordpress-output.png)
+- wordpress: `./exec-bundle-wordpress.sh`. Setelah selesai, site wordpress akan ada di setiap ansible inventory yang dapat diakses melalui `http://localhost:50000` dari perintah `curl http://localhost:50000`.
 
 - laravel: `./exec-bundle-laravel.sh`. Setelah selesai, site laravel dapat diakses melalui `http://localhost:50001`.
-
-![laravel-site](assets/laravel-output.png)
 
 > Untuk dapat berjalan 100% (_termasuk mengirim notifikasi ke slack_) ubah environment variable `SLACK_WEBHOOK_URL` menjadi slack hook url asli. Buat slack web hook disini: [Slack App](https://api.slack.com/apps).
 
@@ -98,6 +94,9 @@ Selanjutnya kamu dapat membuat playbook lain atau modifikasi file-file ansible y
 
 ## Configurasi Dasar
 Konfigurasi dasar berada di file `ansible/ansible.cfg`.
+
+## Inventory
+Ansible inventory yang digunakan dapat dilihat di file `ansible/inventory/ansible-inventory.ini`.
 
 ## Apa Itu Playbook
 Playbook adalah file berformat YAML (.yml) yang digunakan untuk tempat penulisan peraturan / langkah-langkah yang akan dijalankan ke dalam server tujuan. Contoh penggunaan playbook digunakan untuk:

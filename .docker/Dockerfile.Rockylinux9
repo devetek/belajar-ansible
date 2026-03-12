@@ -1,0 +1,12 @@
+FROM rockylinux:9.3
+
+RUN dnf update -y && \
+    dnf install openssh-server epel-release which sudo wget rsyslog net-tools procps-ng python3-pip -y
+
+RUN pip3 install --user virtualenv
+
+RUN systemctl enable sshd
+
+EXPOSE 22
+
+CMD ["/sbin/init", "&&", "service sshd start"]

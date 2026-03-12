@@ -1,4 +1,5 @@
 {
   "nodejs_version": "24.5.0",
-  "nvm_commands": []
+  "nvm_commands": [],
+  "nvm_version": "0.40.4"
 }

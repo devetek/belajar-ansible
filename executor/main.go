@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/apenella/go-ansible/v2/pkg/execute"
@@ -17,6 +18,7 @@ var inventory string
 var connectionLocal bool
 var user string
 var key string
+var verbose bool
 var playbookFiles []string
 var tags []string
 var extravars []string
@@ -26,6 +28,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&connectionLocal, "connection-local", "L", false, "Run playbook using local connection")
 	rootCmd.Flags().StringVarP(&user, "user", "u", "", "User to executute playbook")
 	rootCmd.Flags().StringVarP(&key, "key", "k", "", "SSH key to execute playbook")
+	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 	rootCmd.Flags().StringSliceVarP(&playbookFiles, "playbook", "p", []string{}, "Playbook(s) to run")
 	rootCmd.Flags().StringSliceVarP(&tags, "tags", "t", []string{}, "Tag(s) to be executed")
 	rootCmd.Flags().StringSliceVarP(&extravars, "extra-var", "e", []string{}, "Set extra variables from file to use during the playbook execution.")
@@ -69,6 +72,7 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 		AskPass:       false,
 		User:          user,
 		PrivateKey:    key,
+		VerboseVV:     verbose,
 	}
 
 	if connectionLocal {
@@ -111,6 +115,8 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 		),
 		configuration.WithAnsibleForceColor(),
 	)
+
+	log.Println(playbookCmdString)
 
 	err := exec.Execute(context.TODO())
 	if err != nil {

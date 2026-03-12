@@ -1,0 +1,10 @@
+FROM fedora:43
+
+RUN dnf update -y && \
+    dnf install openssh-server -y
+
+RUN systemctl enable sshd
+
+EXPOSE 22
+
+CMD ["/sbin/init", "&&", "service sshd start"]

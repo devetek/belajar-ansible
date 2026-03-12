@@ -18,14 +18,20 @@ roles:
   - name: gantsign.golang
     src: https://github.com/devetek/ansible-role-golang
     version: fix-mirror
+    # Required to install PHP in RHEL family
+  - name: geerlingguy.repo-epel
+    version: 3.1.1
+  - name: geerlingguy.repo-remi
+    version: 2.1.0
+    # Required to install PHP in RHEL family
   - name: geerlingguy.mysql
     version: 4.3.4
   - name: geerlingguy.postgresql
-    version: 3.4.2
+    version: 4.0.3
   - name: geerlingguy.php
-    version: 4.8.0
+    version: 6.0.0
   - name: geerlingguy.php-versions
-    version: 5.0.1
+    version: 7.0.1
   - name: geerlingguy.composer
     version: 1.9.2
   - name: geerlingguy.redis
@@ -43,8 +49,7 @@ roles:
   - name: devetek.bun
     src: https://github.com/devetek/ansible-role-bun
   - name: trfore.mongodb_install
-    src: https://github.com/devetek/ansible-role-mongodb-install
-    version: remove-deb-arch
+    version: v3.0.5
   - name: devetek.wpcli
     src: https://github.com/devetek/ansible-role-wpcli
     version: main
@@ -71,7 +76,7 @@ roles:
     version: main
   - name: githubixx.docker
     src: https://github.com/devetek/ansible-role-docker
-    version: fix-compatibility
+    version: fix-missing-deps
   - name: zhongwencool.emqx
     version: v1.0.0
 

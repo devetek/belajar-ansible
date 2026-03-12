@@ -2,5 +2,7 @@
   "postgresql_listen_addresses": [
     "*"
   ],
-  "postgresql_version": 16
+  "postgresql_version": 17,
+  "postgresql_user": "postgres",
+  "postgresql_group": "postgres"
 }
