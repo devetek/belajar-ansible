@@ -16,3 +16,5 @@ wcwidth==0.2.13
 kolla-ansible==21.0.0 
 # kolla-ansible @ git+https://opendev.org/openstack/kolla-ansible@master
 python-openstackclient==8.2.0
+proxmoxer==2.2.0
+requests==2.32.5

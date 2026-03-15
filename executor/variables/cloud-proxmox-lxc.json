@@ -1,0 +1,19 @@
+{
+  "api_host": "127.0.0.1",
+  "api_user": "root@pam",
+  "api_token_id": "dpanel",
+  "api_token_secret": "my-token-secret",
+  "node": "pve",
+  "vmid": 700,
+  "hostname": "ansible-lxc-test",
+  "cores": 2,
+  "memory": 2048,
+  "swap": 512,
+  "storage": "backup-dua",
+  "disk": 20,
+  "netif": {
+    "net0": "name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr15"
+  },
+  "password": "password",
+  "ostemplate": "local:vztmpl/ubuntu-24.10-standard_24.10-1_amd64.tar.zst"
+}
