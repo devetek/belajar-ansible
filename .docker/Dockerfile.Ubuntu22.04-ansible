@@ -9,7 +9,7 @@ ENV GOLANG_VERSION=${ARG_GOLANG_VERSION}
 ENV ANSIBLE_CORE_VERSION=${ARG_ANSIBLE_CORE_VERSION}
 
 RUN apt-get update && \
-    apt install iproute2 make libc6 curl openssh-server sudo git net-tools iputils-ping lsb-release -y
+    apt install iproute2 make libc6 curl openssh-server sudo git net-tools iputils-ping lsb-release python3.12-venv -y
 
 # Go installation
 # https://www.cyberciti.biz/faq/how-to-install-gol-ang-on-ubuntu-linux/

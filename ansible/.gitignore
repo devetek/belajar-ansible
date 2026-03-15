@@ -3,5 +3,6 @@
 .bash_history
 id_rsa_fake
 __pycache__
+.venv
 
 credential.json
