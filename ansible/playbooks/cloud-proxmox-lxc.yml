@@ -1,6 +1,4 @@
 # https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/index.html
-# net with static IP: 10.0.15.68/24
-# net with DHCP VM: 10.0.15.67/24
 
 ---
 
