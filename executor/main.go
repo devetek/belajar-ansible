@@ -28,7 +28,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&connectionLocal, "connection-local", "L", false, "Run playbook using local connection")
 	rootCmd.Flags().StringVarP(&user, "user", "u", "", "User to executute playbook")
 	rootCmd.Flags().StringVarP(&key, "key", "k", "", "SSH key to execute playbook")
-	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
+	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output level 3")
 	rootCmd.Flags().StringSliceVarP(&playbookFiles, "playbook", "p", []string{}, "Playbook(s) to run")
 	rootCmd.Flags().StringSliceVarP(&tags, "tags", "t", []string{}, "Tag(s) to be executed")
 	rootCmd.Flags().StringSliceVarP(&extravars, "extra-var", "e", []string{}, "Set extra variables from file to use during the playbook execution.")
@@ -72,7 +72,7 @@ func commandHandler(cmd *cobra.Command, args []string) error {
 		AskPass:       false,
 		User:          user,
 		PrivateKey:    key,
-		VerboseVV:     verbose,
+		VerboseVVV:    verbose,
 	}
 
 	if connectionLocal {

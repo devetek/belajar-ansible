@@ -1,0 +1,31 @@
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/index.html
+
+---
+
+- hosts: localhost
+  tasks:
+    - name: Create new LXC container from dPanel
+      community.proxmox.proxmox:
+        api_user: "{{ api_user }}"
+        api_token_id: "{{ api_token_id }}"
+        api_token_secret: "{{ api_token_secret }}"
+        api_host: "{{ api_host }}"
+        api_timeout: "{{ api_timeout | default(180) }}"
+        timeout: 180
+        node: "{{ node }}"
+        vmid: "{{ vmid }}"
+        hostname: "{{ hostname }}"
+        ostemplate: "{{ ostemplate }}"
+        password: "{{ password }}"
+        cores: "{{ cores }}"
+        memory: "{{ memory }}"
+        swap: "{{ swap }}"
+        # storage: "{{ storage }}"
+        # disk: "{{ disk }}"
+        disk_volume:
+          storage: "{{ storage }}"
+          size: "{{ disk }}"
+        netif: "{{ netif }}"
+        features: "{{ features | default(omit) }}"
+        state: present # Ensures the container is created and running
+      # delegate_to: localhost # The task is executed via the API from localhost

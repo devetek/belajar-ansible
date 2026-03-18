@@ -89,3 +89,5 @@ collections:
   - name: community.mysql
   - name: community.postgresql
   - name: community.mongodb
+  - name: community.proxmox
+    version: 1.6.0

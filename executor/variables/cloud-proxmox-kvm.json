@@ -1,0 +1,28 @@
+{
+  "api_host": "127.0.0.1",
+  "api_user": "root@pam",
+  "api_token_id": "dpanel",
+  "api_token_secret": "YOUR-TOKEN-SECRET-HERE",
+  "api_timeout": 180,
+  "node": "pve",
+  "name": "iac-ansible-kvm",
+  "ide": {
+    "ide2": "local:iso/ubuntu-24.04.3-live-server-amd64.iso,media=cdrom"
+  },
+  "ciuser": "dpanel",
+  "cipassword": "dpanel",
+  "sockets": 1,
+  "cores": 2,
+  "memory": 2048,
+  "net": {
+    "net0": "virtio,bridge=vmbr15,firewall=1"
+  },
+  "scsi": {
+    "scsi0": "local-lvm:32,iothread=on"
+  },
+  "tags": [
+    "dpanel",
+    "ansible",
+    "kvm"
+  ]
+}
