@@ -1,0 +1,46 @@
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/index.html
+# net with static IP: 10.0.15.68/24
+# net with DHCP VM: 10.0.15.67/24
+
+# local:debian-12.5.0-amd64-netinst.iso
+# backup-dua:32,format=qcow2,iothread=on
+
+---
+
+- hosts: localhost
+  tasks:
+    - name: Create new KVM virtual machine from dPanel
+      community.proxmox.proxmox_kvm:
+        api_user: "{{ api_user }}"
+        api_token_id: "{{ api_token_id }}"
+        api_token_secret: "{{ api_token_secret }}"
+        api_host: "{{ api_host }}"
+        api_timeout: "{{ api_timeout | default(180) }}"
+        timeout: "{{ timeout | default(180) }}"
+        name: "{{ name }}"
+        node: "{{ node }}"
+        ide: "{{ ide | default(omit) }}"
+        ciuser: "{{ ciuser | default(omit) }}"
+        cipassword: "{{ cipassword | default(omit) }}"
+        sshkeys: "{{ sshkeys | default(omit) }}"
+        cpu: "{{ cpu | default('x86-64-v2-AES') }}"
+        sockets: "{{ sockets | default(1) }}"
+        cores: "{{ cores | default(4) }}"
+        memory: "{{ memory | default(2048) }}"
+        agent: "{{ agent | default(omit) }}"
+        virtio: "{{ virtio | default(omit) }}"
+        scsihw: "{{ scsihw | default('virtio-scsi-single') }}"
+        scsi: "{{ scsi | default(omit) }}"
+        sata: "{{ sata | default(omit) }}"
+        net: "{{ net }}"
+        ipconfig: "{{ ipconfig | default(omit) }}"
+        tags: "{{ tags | default(omit) }}"
+        storage: "{{ storage | default(omit) }}" # Target storage for full clone.
+        onboot: "{{ onboot | default(omit) }}"
+        ostype: "{{ ostype | default('l26') }}"
+        protection: "{{ protection | default(omit) }}"
+        pool: "{{ pool | default(omit) }}"
+        autostart: "{{ autostart | default(omit) }}"
+        update: "{{ update | default(omit) }}"
+        update_unsafe: "{{ update_unsafe | default(omit) }}"
+        state: present # Ensures the VM is created and running

@@ -1,4 +1,6 @@
 # https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/index.html
+# net with static IP: 10.0.15.68/24
+# net with DHCP VM: 10.0.15.67/24
 
 ---
 
@@ -10,6 +12,7 @@
         api_token_id: "{{ api_token_id }}"
         api_token_secret: "{{ api_token_secret }}"
         api_host: "{{ api_host }}"
+        api_timeout: "{{ api_timeout | default(180) }}"
         timeout: 180
         node: "{{ node }}"
         vmid: "{{ vmid }}"

@@ -2,7 +2,8 @@
   "api_host": "127.0.0.1",
   "api_user": "root@pam",
   "api_token_id": "dpanel",
-  "api_token_secret": "my-token-secret",
+  "api_token_secret": "YOUR-TOKEN-SECRET-HERE",
+  "api_timeout": 180,
   "node": "pve",
   "vmid": 700,
   "hostname": "ansible-lxc-test",
@@ -14,6 +15,6 @@
   "netif": {
     "net0": "name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr15"
   },
-  "password": "password",
+  "password": "dpanel",
   "ostemplate": "local:vztmpl/ubuntu-24.10-standard_24.10-1_amd64.tar.zst"
 }
